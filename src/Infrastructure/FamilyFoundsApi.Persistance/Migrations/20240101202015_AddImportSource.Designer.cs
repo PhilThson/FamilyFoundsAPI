@@ -3,6 +3,7 @@ using System;
 using FamilyFoundsApi.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FamilyFoundsApi.Persistance.Migrations
 {
     [DbContext(typeof(FamilyFoundsDbContext))]
-    partial class FamilyFoundsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240101202015_AddImportSource")]
+    partial class AddImportSource
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.0");

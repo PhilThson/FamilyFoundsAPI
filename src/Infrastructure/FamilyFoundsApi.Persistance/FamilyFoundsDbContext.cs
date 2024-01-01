@@ -13,4 +13,5 @@ public class FamilyFoundsDbContext : DbContext
 
     public DbSet<Transaction> Transaction { get; set; }
     public DbSet<Category> Category { get; set; }
+    public DbSet<ImportSource> ImportSource { get; set; }
 }

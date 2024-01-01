@@ -2,16 +2,18 @@
 
 namespace FamilyFoundsApi.Domain;
 
-public class Category : BaseEntity<short>
+public class ImportSource : BaseEntity<short>
 {
-    public Category()
+    public ImportSource()
     {
         Transactions = new HashSet<Transaction>();
     }
 
     [Required]
-    [StringLength(128)]
+    [StringLength(256)]
     public string Name { get; set; }
+    [StringLength(512)]
+    public string Description { get; set; }
 
     public virtual ICollection<Transaction> Transactions { get; set; }
 }
