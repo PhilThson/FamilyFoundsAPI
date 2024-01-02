@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FamilyFoundsApi.Persistance;
 
-public class BaseRepository<T> : IBaseRepository<T>
+public abstract class BaseRepository<T> : IBaseRepository<T>
     where T : class
 {
     protected DbSet<T> DbSet { get; private set; }

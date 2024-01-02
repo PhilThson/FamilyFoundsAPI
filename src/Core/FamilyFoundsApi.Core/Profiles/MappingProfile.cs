@@ -12,5 +12,7 @@ public class MappingProfile : Profile
         CreateMap<CreateTransactionDto, Transaction>();
 
         CreateMap<Category, ReadCategoryDto>();
+
+        CreateMap<ImportSource, ReadImportSourceDto>();
     }
 }

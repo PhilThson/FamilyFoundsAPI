@@ -48,6 +48,7 @@ var api = app.MapGroup("api");
 
 api.MapTransactionEndpoints();
 api.MapCategoryEndpoints();
+api.MapImportSourceEndpoints();
 
 app.Run();
 
