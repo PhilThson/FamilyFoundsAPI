@@ -1,8 +1,19 @@
+using System.Runtime.CompilerServices;
 using FamilyFoundsApi.Api;
 using FamilyFoundsApi.Core;
 using FamilyFoundsApi.Persistance;
 
+const string LOCAL_ORIGIN = nameof(LOCAL_ORIGIN);
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(o => 
+    o.AddDefaultPolicy(policy => 
+        policy
+            .AllowCredentials()
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .WithOrigins("http://localhost:3000")));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -26,6 +37,8 @@ var summaries = new[]
 {
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 };
+
+app.UseCors();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
