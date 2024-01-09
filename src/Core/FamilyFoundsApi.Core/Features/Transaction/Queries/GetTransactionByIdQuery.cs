@@ -1,9 +1,13 @@
 ﻿using AutoMapper;
-using FamilyFoundsApi.Domain;
+using FamilyFoundsApi.Core.Contracts.API;
+using FamilyFoundsApi.Core.Contracts.Persistance;
+using FamilyFoundsApi.Core.Persistance.Exceptions;
+using FamilyFoundsApi.Domain.Dtos.Read;
+using FamilyFoundsApi.Domain.Models;
 
 namespace FamilyFoundsApi.Core;
 
-public record GetTransactionByIdQuery(long id) : IRequest<ReadTransactionDto>;
+public record GetTransactionByIdQuery(long Id) : IRequest<ReadTransactionDto>;
 
 public class GetTransactionByIdQueryHandler : IRequestHandler<GetTransactionByIdQuery, ReadTransactionDto>
 {
@@ -18,8 +22,8 @@ public class GetTransactionByIdQueryHandler : IRequestHandler<GetTransactionById
 
     public Task<ReadTransactionDto> Handle(GetTransactionByIdQuery request)
     {
-        var transaction = _unitOfWork.Transaction.FindById(request.id) ??
-            throw new NotFoundException(nameof(Transaction), request.id);
+        var transaction = _unitOfWork.Transaction.FindById(request.Id) ??
+            throw new NotFoundException(nameof(Transaction), request.Id);
             
         return Task.FromResult(_mapper.Map<ReadTransactionDto>(transaction));
     }

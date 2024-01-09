@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FamilyFoundsApi.Domain;
+namespace FamilyFoundsApi.Domain.Dtos.Create;
 
 public class CreateTransactionDto
 {
@@ -15,5 +15,6 @@ public class CreateTransactionDto
     [Required]
     public DateTime? Date { get; set; }
     public DateTime? PostingDate { get; set; }
-    public short? CategoryId { get; set; }
+    [StringLength(128)]
+    public string Category { get; set; }
 }

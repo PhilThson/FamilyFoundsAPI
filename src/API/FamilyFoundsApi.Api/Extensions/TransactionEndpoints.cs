@@ -1,5 +1,7 @@
 ﻿using FamilyFoundsApi.Core;
-using FamilyFoundsApi.Domain;
+using FamilyFoundsApi.Core.Contracts.API;
+using FamilyFoundsApi.Domain.Dtos.Create;
+using FamilyFoundsApi.Domain.Dtos.Read;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace FamilyFoundsApi.Api;
@@ -26,6 +28,7 @@ public static class TransactionEndpoints
     private static async Task<Ok<List<ReadTransactionDto>>> GetAll(IMediator mediator)
     {
         var transactions = await mediator.Send(new GetTransactionsListQuery());
+        await Task.Delay(5000);
         return TypedResults.Ok(transactions);
     }
 

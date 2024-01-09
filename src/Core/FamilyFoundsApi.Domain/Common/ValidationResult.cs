@@ -1,4 +1,4 @@
-﻿namespace FamilyFoundsApi.Domain;
+﻿namespace FamilyFoundsApi.Domain.Common;
 
 public class ValidationResult
 {

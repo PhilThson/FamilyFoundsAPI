@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using FamilyFoundsApi.Core;
+using FamilyFoundsApi.Core.Persistance.Exceptions;
 
 namespace FamilyFoundsApi.Api;
 

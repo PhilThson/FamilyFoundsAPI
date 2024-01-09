@@ -1,6 +1,7 @@
-﻿using FamilyFoundsApi.Core;
+﻿using FamilyFoundsApi.Core.Contracts.Persistance;
+using FamilyFoundsApi.Core.Contracts.Persistance.Repository;
 
-namespace FamilyFoundsApi.Persistance;
+namespace FamilyFoundsApi.Persistance.Repository;
 
 public class UnitOfWork : IUnitOfWork
 {

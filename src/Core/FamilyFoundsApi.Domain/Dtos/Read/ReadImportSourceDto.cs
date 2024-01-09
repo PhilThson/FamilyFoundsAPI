@@ -1,4 +1,4 @@
-﻿namespace FamilyFoundsApi.Domain;
+﻿namespace FamilyFoundsApi.Domain.Dtos.Read;
 
 public class ReadImportSourceDto
 {

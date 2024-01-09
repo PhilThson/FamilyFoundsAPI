@@ -1,4 +1,6 @@
-﻿namespace FamilyFoundsApi.Core;
+﻿using FamilyFoundsApi.Core.Contracts.Persistance.Repository;
+
+namespace FamilyFoundsApi.Core.Contracts.Persistance;
 
 public interface IUnitOfWork
 {

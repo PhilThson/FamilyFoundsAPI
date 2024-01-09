@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using FamilyFoundsApi.Domain.Models.Base;
 
-namespace FamilyFoundsApi.Domain;
+namespace FamilyFoundsApi.Domain.Models;
 
 public class Transaction : BaseEntity<long>
 {

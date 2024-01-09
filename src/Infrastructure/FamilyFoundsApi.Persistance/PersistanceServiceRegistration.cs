@@ -1,4 +1,5 @@
-﻿using FamilyFoundsApi.Core;
+﻿using FamilyFoundsApi.Core.Contracts.Persistance;
+using FamilyFoundsApi.Persistance.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

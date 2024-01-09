@@ -1,4 +1,4 @@
-﻿namespace FamilyFoundsApi.Domain;
+﻿namespace FamilyFoundsApi.Domain.Models.Base;
 
 public class AuditableEntity
 {

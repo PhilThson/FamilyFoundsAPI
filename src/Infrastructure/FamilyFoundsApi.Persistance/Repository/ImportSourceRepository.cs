@@ -1,5 +1,5 @@
-﻿using FamilyFoundsApi.Core;
-using FamilyFoundsApi.Domain;
+﻿using FamilyFoundsApi.Core.Contracts.Persistance.Repository;
+using FamilyFoundsApi.Domain.Models;
 
 namespace FamilyFoundsApi.Persistance;
 

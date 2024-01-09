@@ -1,9 +1,13 @@
 ﻿using AutoMapper;
-using FamilyFoundsApi.Domain;
+using FamilyFoundsApi.Core.Contracts.API;
+using FamilyFoundsApi.Core.Contracts.Persistance;
+using FamilyFoundsApi.Core.Persistance.Exceptions;
+using FamilyFoundsApi.Domain.Dtos.Read;
+using FamilyFoundsApi.Domain.Models;
 
 namespace FamilyFoundsApi.Core;
 
-public record GetCategoryByIdQuery(short id) : IRequest<ReadCategoryDto>;
+public record GetCategoryByIdQuery(short Id) : IRequest<ReadCategoryDto>;
 
 public class GetCategoryByIdQueryHandler : IRequestHandler<GetCategoryByIdQuery, ReadCategoryDto>
 {
@@ -18,8 +22,8 @@ public class GetCategoryByIdQueryHandler : IRequestHandler<GetCategoryByIdQuery,
 
     public Task<ReadCategoryDto> Handle(GetCategoryByIdQuery request)
     {
-        var category = _unitOfWork.Category.FindById(request.id) ??
-            throw new NotFoundException(nameof(Category), request.id);
+        var category = _unitOfWork.Category.FindById(request.Id) ??
+            throw new NotFoundException(nameof(Category), request.Id);
         
         return Task.FromResult(_mapper.Map<ReadCategoryDto>(category));
     }

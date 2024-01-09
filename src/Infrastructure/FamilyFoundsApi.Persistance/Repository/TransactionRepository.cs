@@ -1,5 +1,6 @@
-﻿using FamilyFoundsApi.Core;
-using FamilyFoundsApi.Domain;
+﻿using FamilyFoundsApi.Core.Contracts.Persistance.Repository;
+using FamilyFoundsApi.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FamilyFoundsApi.Persistance;
 
@@ -9,4 +10,9 @@ public class TransactionRepository : BaseRepository<Transaction>, ITransactionRe
     {
         
     }
+
+    public Task<Transaction> GetByIdAsync(long id, bool tracked = false) =>
+        FindByConditionAsync(t => t.Id == id, tracked)
+        .Include(t => t.Category)
+        .FirstOrDefaultAsync();
 }

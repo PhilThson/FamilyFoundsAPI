@@ -1,4 +1,4 @@
-﻿using FamilyFoundsApi.Domain;
+﻿using FamilyFoundsApi.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace FamilyFoundsApi.Persistance;

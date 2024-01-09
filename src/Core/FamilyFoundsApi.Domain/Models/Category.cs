@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using FamilyFoundsApi.Domain.Models.Base;
 
-namespace FamilyFoundsApi.Domain;
+namespace FamilyFoundsApi.Domain.Models;
 
 public class Category : BaseEntity<short>
 {

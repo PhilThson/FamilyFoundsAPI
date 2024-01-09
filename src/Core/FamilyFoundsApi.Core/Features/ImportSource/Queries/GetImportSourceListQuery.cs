@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
-using FamilyFoundsApi.Domain;
+using FamilyFoundsApi.Core.Contracts.API;
+using FamilyFoundsApi.Core.Contracts.Persistance;
+using FamilyFoundsApi.Domain.Dtos.Read;
 
 namespace FamilyFoundsApi.Core;
 

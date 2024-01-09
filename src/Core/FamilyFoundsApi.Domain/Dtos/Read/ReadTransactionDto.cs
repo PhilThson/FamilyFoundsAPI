@@ -1,4 +1,4 @@
-﻿namespace FamilyFoundsApi.Domain;
+﻿namespace FamilyFoundsApi.Domain.Dtos.Read;
 
 public class ReadTransactionDto
 {
@@ -9,4 +9,5 @@ public class ReadTransactionDto
     public string Description { get; set; }
     public DateTime Date { get; set; }
     public DateTime? PostingDate { get; set; }
+    public ReadCategoryDto Category { get; set; }
 }
