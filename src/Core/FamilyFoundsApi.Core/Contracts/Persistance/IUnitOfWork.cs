@@ -1,4 +1,5 @@
 ﻿using FamilyFoundsApi.Core.Contracts.Persistance.Repository;
+using FamilyFoundsApi.Domain;
 
 namespace FamilyFoundsApi.Core.Contracts.Persistance;
 
@@ -9,4 +10,6 @@ public interface IUnitOfWork
     IImportSourceRepository ImportSource { get; }
 
     Task SaveAsync();
+    void AddEntity<T>(T instance) where T : class;
+    void RemoveEntity<T>(T instance) where T : IRemoveable;
 }

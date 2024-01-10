@@ -30,7 +30,4 @@ public abstract class BaseRepository<T> : IBaseRepository<T>
 
     public T FindById(object id) => 
         _DbSet.Find(id);
-
-    public void AddEntity(T entity) =>
-        _DbSet.Add(entity);
 }

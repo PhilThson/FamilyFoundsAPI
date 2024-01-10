@@ -1,5 +1,6 @@
 ﻿using FamilyFoundsApi.Core.Contracts.Persistance;
 using FamilyFoundsApi.Core.Contracts.Persistance.Repository;
+using FamilyFoundsApi.Domain;
 
 namespace FamilyFoundsApi.Persistance.Repository;
 
@@ -26,4 +27,16 @@ public class UnitOfWork : IUnitOfWork
 
     public Task SaveAsync() =>
         _dbContext.SaveChangesAsync();
+
+    public void AddEntity<T>(T instance) where T : class
+    {
+        _dbContext.Set<T>().Add(instance);
+        _dbContext.SaveChanges();
+    }
+
+    public void RemoveEntity<T>(T instance) where T : IRemoveable
+    {
+        instance.IsActive = false;
+        _dbContext.SaveChanges();
+    }
 }

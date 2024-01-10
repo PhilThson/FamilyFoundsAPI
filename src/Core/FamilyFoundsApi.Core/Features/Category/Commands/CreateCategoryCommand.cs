@@ -26,8 +26,7 @@ public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryComman
         if (!_unitOfWork.Category.ExistByName(request.CategoryName))
         {
             var newCategory = new Category { Name = request.CategoryName };
-            _unitOfWork.Category.AddEntity(newCategory);
-            await _unitOfWork.SaveAsync();
+            _unitOfWork.AddEntity(newCategory);
         }
         var existingCategoty = await _unitOfWork.Category.GetByNameAsync(request.CategoryName);
         return _mapper.Map<ReadCategoryDto>(existingCategoty);

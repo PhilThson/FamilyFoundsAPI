@@ -15,4 +15,7 @@ public class TransactionRepository : BaseRepository<Transaction>, ITransactionRe
         FindByConditionAsync(t => t.Id == id, tracked)
         .Include(t => t.Category)
         .FirstOrDefaultAsync();
+
+    public Task<List<Transaction>> GetAllAsync() =>
+        _DbSet.Include(t => t.Category).ToListAsync();
 }

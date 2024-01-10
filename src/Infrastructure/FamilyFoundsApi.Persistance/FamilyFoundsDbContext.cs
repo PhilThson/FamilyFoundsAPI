@@ -14,4 +14,12 @@ public class FamilyFoundsDbContext : DbContext
     public DbSet<Transaction> Transaction { get; set; }
     public DbSet<Category> Category { get; set; }
     public DbSet<ImportSource> ImportSource { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Transaction>().Property(t => t.IsActive).HasDefaultValue(true);
+        modelBuilder.Entity<Transaction>().HasQueryFilter(filter => filter.IsActive == true);
+
+        base.OnModelCreating(modelBuilder);
+    }
 }

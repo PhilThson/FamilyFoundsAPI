@@ -9,8 +9,8 @@ public record GetImportSourceListQuery : IRequest<List<ReadImportSourceDto>>;
 
 public class GetImportSourceListQueryHandler : IRequestHandler<GetImportSourceListQuery, List<ReadImportSourceDto>>
 {
-    private IUnitOfWork _unitOfWork;
-    private IMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IMapper _mapper;
     public GetImportSourceListQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;

@@ -9,8 +9,8 @@ public record GetTransactionsListQuery : IRequest<List<ReadTransactionDto>>;
 
 public class GetTransactionsListQueryHandler : IRequestHandler<GetTransactionsListQuery, List<ReadTransactionDto>>
 {
-    private IUnitOfWork _unitOfWork;
-    private IMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IMapper _mapper;
 
     public GetTransactionsListQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
     {
@@ -20,7 +20,7 @@ public class GetTransactionsListQueryHandler : IRequestHandler<GetTransactionsLi
 
     public async Task<List<ReadTransactionDto>> Handle(GetTransactionsListQuery request)
     {
-        var transactions = await _unitOfWork.Transaction.FindAllAsync();
+        var transactions = await _unitOfWork.Transaction.GetAllAsync();
         return _mapper.Map<List<ReadTransactionDto>>(transactions);
     }
 }

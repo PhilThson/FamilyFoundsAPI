@@ -1,5 +1,6 @@
 ﻿using FamilyFoundsApi.Core;
 using FamilyFoundsApi.Core.Contracts.API;
+using FamilyFoundsApi.Core.Features.Transaction;
 using FamilyFoundsApi.Domain.Dtos.Create;
 using FamilyFoundsApi.Domain.Dtos.Read;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -23,6 +24,10 @@ public static class TransactionEndpoints
         transactions.MapPost("", Create)
             .WithName("CreateTransaction")
             .WithOpenApi();
+
+        transactions.MapDelete("{id}", DeleteById)
+            .WithName("DeleteTransaction")
+            .WithOpenApi();
     }
 
     private static async Task<Ok<List<ReadTransactionDto>>> GetAll(IMediator mediator)
@@ -44,5 +49,12 @@ public static class TransactionEndpoints
     {
         var transaction = await mediator.Send(new CreateTransactionCommand(transactionDto));
         return TypedResults.Created(nameof(GetById), transaction);
+    }
+
+    private static async Task<Results<NoContent, NotFound>>
+        DeleteById(long id, IMediator mediator)
+    {
+        _ = await mediator.Send(new DeleteTransactionCommand(id));
+        return TypedResults.NoContent();
     }
 }

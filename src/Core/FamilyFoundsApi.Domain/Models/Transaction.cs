@@ -4,7 +4,7 @@ using FamilyFoundsApi.Domain.Models.Base;
 
 namespace FamilyFoundsApi.Domain.Models;
 
-public class Transaction : BaseEntity<long>
+public class Transaction : BaseEntity<long>, IRemoveable
 {
     [Required]
     public double Amount { get; set; }
@@ -20,6 +20,7 @@ public class Transaction : BaseEntity<long>
     public DateTime? PostingDate { get; set; }
     public short? CategoryId { get; set; }
     public short? ImportSourceId { get; set; }
+    public bool IsActive { get; set; } = true;
 
     [ForeignKey(nameof(CategoryId))]
     public virtual Category Category { get; set; }

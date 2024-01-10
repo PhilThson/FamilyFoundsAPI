@@ -8,5 +8,4 @@ public interface IBaseRepository<T>
     IQueryable<T> FindByConditionAsync(
         Expression<Func<T, bool>> predicate, bool tracked = false);
     T FindById(object id);
-    void AddEntity(T entity);
 }

@@ -2,20 +2,18 @@
 using FamilyFoundsApi.Core.Contracts.API;
 using FamilyFoundsApi.Core.Contracts.Core;
 using FamilyFoundsApi.Core.Contracts.Persistance;
-using FamilyFoundsApi.Core.Persistance.Exceptions;
 using FamilyFoundsApi.Domain.Dtos.Create;
 using FamilyFoundsApi.Domain.Dtos.Read;
-using FamilyFoundsApi.Domain.Models;
 
-namespace FamilyFoundsApi.Core;
+namespace FamilyFoundsApi.Core.Features.Transaction;
 
 public record CreateTransactionCommand(CreateTransactionDto TransactionDto) : IRequest<ReadTransactionDto>;
 
 public class CreateTransactionCommandHandler : IRequestHandler<CreateTransactionCommand, ReadTransactionDto>
 {
-    private IUnitOfWork _unitOfWork;
-    private IMapper _mapper;
-    private IMediator _mediator;
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
 
     public CreateTransactionCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IMediator mediator)
     {
@@ -28,10 +26,9 @@ public class CreateTransactionCommandHandler : IRequestHandler<CreateTransaction
         var validator = new CreateTransactionCommandValidator();
         await validator.ValidateAsync(request);
         var category = await _mediator.Send(new CreateCategoryCommand(request.TransactionDto.Category));
-        var transactionEntity = _mapper.Map<Transaction>(request.TransactionDto);
+        var transactionEntity = _mapper.Map<Domain.Models.Transaction>(request.TransactionDto);
         transactionEntity.CategoryId = category?.Id;
-        _unitOfWork.Transaction.AddEntity(transactionEntity);
-        await _unitOfWork.SaveAsync();
+        _unitOfWork.AddEntity(transactionEntity);
         var transactionFromDb = await _unitOfWork.Transaction.GetByIdAsync(transactionEntity.Id);
         return _mapper.Map<ReadTransactionDto>(transactionFromDb);
     }
