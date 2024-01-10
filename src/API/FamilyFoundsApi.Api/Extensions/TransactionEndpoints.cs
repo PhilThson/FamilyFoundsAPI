@@ -33,7 +33,7 @@ public static class TransactionEndpoints
     private static async Task<Ok<List<ReadTransactionDto>>> GetAll(IMediator mediator)
     {
         var transactions = await mediator.Send(new GetTransactionsListQuery());
-        await Task.Delay(5000);
+        await Task.Delay(2000);
         return TypedResults.Ok(transactions);
     }
 

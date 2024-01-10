@@ -17,7 +17,7 @@ public static class CategoryEndpoints
 
     private static async Task<Ok<List<ReadCategoryDto>>> GetAll(IMediator mediator)
     {
-        await Task.Delay(3000);
+        await Task.Delay(2000);
         return TypedResults.Ok(await mediator.Send(new GetCategoriesListQuery()));
     }
 
