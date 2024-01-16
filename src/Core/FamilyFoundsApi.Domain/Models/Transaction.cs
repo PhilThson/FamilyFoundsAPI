@@ -27,4 +27,39 @@ public class Transaction : BaseEntity<long>, IRemoveable
     [ForeignKey(nameof(ImportSourceId))]
     public virtual ImportSource ImportSource { get; set; }
 
+
+    public static bool operator==(Transaction transaction, Transaction other)
+    {
+        return transaction.Title == other.Title
+            && transaction.Contractor == other.Contractor
+            && transaction.Amount == other.Amount
+            && transaction.Description == other.Description
+            && transaction.Date.Date == other.Date.Date
+            && transaction.PostingDate?.Date == other.PostingDate?.Date
+            && transaction.Category?.Name == other.Category?.Name;
+    }
+
+    public static bool operator!=(Transaction transaction, Transaction other)
+    {
+        return !(transaction == other);
+    }
+
+    public override bool Equals(object obj)
+    {
+        if (ReferenceEquals(this, obj))
+        {
+            return true;
+        }
+
+        if (ReferenceEquals(obj, null))
+        {
+            return false;
+        }
+
+        if (obj is not Transaction) {
+            return false;
+        }
+        
+        return this == obj as Transaction;
+    }
 }

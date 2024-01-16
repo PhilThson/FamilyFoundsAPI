@@ -3,7 +3,7 @@ using FamilyFoundsApi.Core.Contracts.API;
 using FamilyFoundsApi.Core.Contracts.Persistance;
 using FamilyFoundsApi.Domain.Dtos.Read;
 
-namespace FamilyFoundsApi.Core;
+namespace FamilyFoundsApi.Core.Features.Transaction.Queries;
 
 public record GetTransactionsListQuery : IRequest<List<ReadTransactionDto>>;
 

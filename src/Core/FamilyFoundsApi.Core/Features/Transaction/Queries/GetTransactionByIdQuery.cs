@@ -3,9 +3,8 @@ using FamilyFoundsApi.Core.Contracts.API;
 using FamilyFoundsApi.Core.Contracts.Persistance;
 using FamilyFoundsApi.Core.Persistance.Exceptions;
 using FamilyFoundsApi.Domain.Dtos.Read;
-using FamilyFoundsApi.Domain.Models;
 
-namespace FamilyFoundsApi.Core;
+namespace FamilyFoundsApi.Core.Features.Transaction.Queries;
 
 public record GetTransactionByIdQuery(long Id) : IRequest<ReadTransactionDto>;
 

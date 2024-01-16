@@ -28,9 +28,19 @@ public class UnitOfWork : IUnitOfWork
     public Task SaveAsync() =>
         _dbContext.SaveChangesAsync();
 
-    public void AddEntity<T>(T instance) where T : class
+    public void AddEntity<T>(T instance)
     {
-        _dbContext.Set<T>().Add(instance);
+        _dbContext.Add(instance);
+        _dbContext.SaveChanges();
+    }
+
+    public void AttachEntity<T>(T instance, List<string> modifiedProperties)
+    {
+        _dbContext.Attach(instance);
+        foreach (var property in modifiedProperties)
+        {
+            _dbContext.Entry(instance).Property(property).IsModified = true;
+        }
         _dbContext.SaveChanges();
     }
 

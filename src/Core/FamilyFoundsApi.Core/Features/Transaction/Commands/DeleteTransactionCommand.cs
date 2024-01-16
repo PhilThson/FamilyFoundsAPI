@@ -2,7 +2,7 @@
 using FamilyFoundsApi.Core.Contracts.Persistance;
 using FamilyFoundsApi.Core.Persistance.Exceptions;
 
-namespace FamilyFoundsApi.Core.Features.Transaction;
+namespace FamilyFoundsApi.Core.Features.Transaction.Commands;
 
 public record DeleteTransactionCommand(long Id) : IRequest<long>;
 

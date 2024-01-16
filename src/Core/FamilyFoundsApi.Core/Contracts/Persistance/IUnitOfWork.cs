@@ -10,6 +10,7 @@ public interface IUnitOfWork
     IImportSourceRepository ImportSource { get; }
 
     Task SaveAsync();
-    void AddEntity<T>(T instance) where T : class;
+    void AddEntity<T>(T instance);
+    void AttachEntity<T>(T instance, List<string> modifiedProperties);
     void RemoveEntity<T>(T instance) where T : IRemoveable;
 }

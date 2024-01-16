@@ -5,7 +5,7 @@ using FamilyFoundsApi.Core.Contracts.Persistance;
 using FamilyFoundsApi.Domain.Dtos.Create;
 using FamilyFoundsApi.Domain.Dtos.Read;
 
-namespace FamilyFoundsApi.Core.Features.Transaction;
+namespace FamilyFoundsApi.Core.Features.Transaction.Commands;
 
 public record CreateTransactionCommand(CreateTransactionDto TransactionDto) : IRequest<ReadTransactionDto>;
 
@@ -25,7 +25,11 @@ public class CreateTransactionCommandHandler : IRequestHandler<CreateTransaction
     {
         var validator = new CreateTransactionCommandValidator();
         await validator.ValidateAsync(request);
-        var category = await _mediator.Send(new CreateCategoryCommand(request.TransactionDto.Category));
+        var category = null as ReadCategoryDto;
+        if (!string.IsNullOrEmpty(request.TransactionDto.Category))
+        {
+            category = await _mediator.Send(new CreateCategoryCommand(request.TransactionDto.Category));
+        }
         var transactionEntity = _mapper.Map<Domain.Models.Transaction>(request.TransactionDto);
         transactionEntity.CategoryId = category?.Id;
         _unitOfWork.AddEntity(transactionEntity);
@@ -38,11 +42,15 @@ public class CreateTransactionCommandValidator : AbstractValidator<CreateTransac
 {
     public CreateTransactionCommandValidator()
     {
+        AddRule(IsNotEmpty, "Przesłany model jest pusty");
         AddRule(HasDate, "Brak daty transakcji");
         AddRule(HasTitle, "Tytuł transakcji jest wymagany");
         AddRule(HasContractor, "Brak danych kontrahenta");
         AddRule(HasAmount, "Kwota musi być rózna od 0");
     }
+
+    private Task<bool> IsNotEmpty(CreateTransactionCommand command) =>
+        Task.FromResult(command.TransactionDto is not null);
 
     private Task<bool> HasDate(CreateTransactionCommand command) =>
         Task.FromResult(command.TransactionDto.Date.HasValue);
