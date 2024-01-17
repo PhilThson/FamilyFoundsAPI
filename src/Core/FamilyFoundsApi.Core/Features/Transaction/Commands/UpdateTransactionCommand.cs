@@ -2,10 +2,10 @@
 using FamilyFoundsApi.Core.Contracts.API;
 using FamilyFoundsApi.Core.Contracts.Core;
 using FamilyFoundsApi.Core.Contracts.Persistance;
+using FamilyFoundsApi.Core.Helpers;
 using FamilyFoundsApi.Core.Persistance.Exceptions;
 using FamilyFoundsApi.Domain.Dtos.Read;
 using FamilyFoundsApi.Domain.Dtos.Update;
-using static FamilyFoundsApi.Core.Extensions.StringExtensions;
 
 namespace FamilyFoundsApi.Core.Features.Transaction.Commands;
 
@@ -40,31 +40,10 @@ public class UpdateTransactionCommandHandler : IRequestHandler<UpdateTransaction
         {
             return _mapper.Map<ReadTransactionDto>(existingTransaction);
         }
-        var modifiedProperties = GetModifiedProperties(existingTransaction, updateTransaction);
+        var modifiedProperties = EntitiesHelper.GetModifiedProperties(existingTransaction, updateTransaction);
         _unitOfWork.AttachEntity(updateTransaction, modifiedProperties);
 
         return _mapper.Map<ReadTransactionDto>(updateTransaction);
-    }
-
-    private static List<string> GetModifiedProperties(Domain.Models.Transaction exisit, Domain.Models.Transaction update)
-    {
-        var modifiedProperties = new List<string>();
-        var transactionType = typeof(Domain.Models.Transaction);
-        var propertiesNames = transactionType
-            .GetProperties()
-            .Where(p => !p.GetAccessors()[0].IsVirtual && p.Name != "Id")
-            .Select(p => p.Name);
-
-        foreach (var property in propertiesNames)
-        {
-            var existValue = ToLowerString(transactionType.GetProperty(property)?.GetValue(exisit));
-            var updateValue = ToLowerString(transactionType.GetProperty(property)?.GetValue(update));
-            if (updateValue != existValue) {
-                modifiedProperties.Add(property);
-            }
-        }
-
-        return modifiedProperties;
     }
 
     public class UpdateTransactionCommandValidator : AbstractValidator<UpdateTransactionCommand>
