@@ -3,7 +3,7 @@ using FamilyFoundsApi.Core.Contracts.API;
 using FamilyFoundsApi.Core.Contracts.Core;
 using FamilyFoundsApi.Core.Contracts.Persistance;
 using FamilyFoundsApi.Core.Helpers;
-using FamilyFoundsApi.Core.Persistance.Exceptions;
+using FamilyFoundsApi.Core.Exceptions;
 using FamilyFoundsApi.Domain.Dtos.Read;
 using FamilyFoundsApi.Domain.Dtos.Update;
 

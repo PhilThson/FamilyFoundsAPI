@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using FamilyFoundsApi.Core.Persistance.Exceptions;
+using FamilyFoundsApi.Core.Exceptions;
 
 namespace FamilyFoundsApi.Api;
 
@@ -30,7 +30,8 @@ public class ExceptionHandlingMiddleware
             {
                 ValidationException => StatusCodes.Status400BadRequest,
                 NotFoundException => StatusCodes.Status404NotFound,
-                ArgumentNullException => StatusCodes.Status500InternalServerError,
+                ArgumentNullException
+                or ImportException => StatusCodes.Status500InternalServerError,
                 _ => StatusCodes.Status500InternalServerError
             };
 

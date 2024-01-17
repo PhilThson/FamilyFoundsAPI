@@ -7,7 +7,11 @@ namespace FamilyFoundsApi.Domain.Models;
 public class Transaction : BaseEntity<long>, IRemoveable
 {
     [Required]
-    public double Amount { get; set; }
+    public decimal Amount { get; set; }
+    [StringLength(3)]
+    public string Currency { get; set; }
+    [StringLength(128)]
+    public string Account { get; set; }
     [Required]
     [StringLength(256)]
     public string Contractor { get; set; }
@@ -18,6 +22,12 @@ public class Transaction : BaseEntity<long>, IRemoveable
     [Required]
     public DateTime Date { get; set; }
     public DateTime? PostingDate { get; set; }
+    [StringLength(128)]
+    public string Number { get; set; }
+    [StringLength(128)]
+    public string ContractorAccountNumber { get; set; }
+    [StringLength(256)]
+    public string ContractorBankName { get; set; }
     public short? CategoryId { get; set; }
     public short? ImportSourceId { get; set; }
     public bool IsActive { get; set; } = true;
@@ -61,5 +71,10 @@ public class Transaction : BaseEntity<long>, IRemoveable
         }
         
         return this == obj as Transaction;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
     }
 }

@@ -3,6 +3,7 @@ using FamilyFoundsApi.Api.Mediator;
 using FamilyFoundsApi.Core;
 using FamilyFoundsApi.Core.Contracts.API;
 using FamilyFoundsApi.Persistance;
+using FamilyFoundsApi.Infrastructure;
 
 const string LOCAL_ORIGIN = nameof(LOCAL_ORIGIN);
 
@@ -21,6 +22,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddCoreServices();
 builder.Services.AddPersistanceServices(builder.Configuration);
+builder.Services.AddInfrastructureServices();
 
 builder.Services.AddSingleton<IMediator, FamilyFoundsContext>();
 
@@ -34,29 +36,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
 app.UseCors();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
 
 var api = app.MapGroup("api");
 
@@ -65,8 +47,3 @@ api.MapCategoryEndpoints();
 api.MapImportSourceEndpoints();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

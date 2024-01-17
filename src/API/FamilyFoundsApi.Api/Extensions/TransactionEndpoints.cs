@@ -33,6 +33,10 @@ public static class TransactionEndpoints
         transactions.MapDelete("{id}", DeleteById)
             .WithName("DeleteTransaction")
             .WithOpenApi();
+
+        transactions.MapPost("/import", Import)
+            .WithName("ImportTransactions")
+            .WithOpenApi();
     }
 
     private static async Task<Ok<List<ReadTransactionDto>>> GetAll(IMediator mediator)
@@ -67,6 +71,18 @@ public static class TransactionEndpoints
         DeleteById(long id, IMediator mediator)
     {
         _ = await mediator.Send(new DeleteTransactionCommand(id));
+        return TypedResults.NoContent();
+    }
+
+    private static async Task<Results<NoContent, BadRequest, BadRequest<string>>>
+        Import(HttpContext httpContext, IMediator mediator)
+    {
+        var file = httpContext.Request.Form.Files[0];
+        if (file is null)
+        {
+            return TypedResults.BadRequest("Brak pliku do importu");
+        }
+        _ = await mediator.Send(new ImportCsvTransactionListCommand(file.OpenReadStream(), Domain.BankEnum.ING));
         return TypedResults.NoContent();
     }
 }

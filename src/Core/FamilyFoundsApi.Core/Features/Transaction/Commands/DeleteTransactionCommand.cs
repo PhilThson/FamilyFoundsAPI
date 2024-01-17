@@ -1,6 +1,6 @@
 ﻿using FamilyFoundsApi.Core.Contracts.API;
 using FamilyFoundsApi.Core.Contracts.Persistance;
-using FamilyFoundsApi.Core.Persistance.Exceptions;
+using FamilyFoundsApi.Core.Exceptions;
 
 namespace FamilyFoundsApi.Core.Features.Transaction.Commands;
 

@@ -11,6 +11,7 @@ public interface IUnitOfWork
 
     Task SaveAsync();
     void AddEntity<T>(T instance);
+    Task AddEntitiesAsync<T>(IEnumerable<T> entitiesList) where T : class;
     void AttachEntity<T>(T instance, List<string> modifiedProperties);
     void RemoveEntity<T>(T instance) where T : IRemoveable;
 }

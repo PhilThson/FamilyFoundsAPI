@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using FamilyFoundsApi.Core.Contracts.API;
 using FamilyFoundsApi.Core.Contracts.Persistance;
-using FamilyFoundsApi.Core.Persistance.Exceptions;
+using FamilyFoundsApi.Core.Exceptions;
 using FamilyFoundsApi.Domain.Dtos.Read;
 
 namespace FamilyFoundsApi.Core.Features.Transaction.Queries;

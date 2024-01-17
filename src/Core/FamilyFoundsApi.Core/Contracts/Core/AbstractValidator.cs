@@ -1,4 +1,4 @@
-﻿using FamilyFoundsApi.Core.Persistance.Exceptions;
+﻿using FamilyFoundsApi.Core.Exceptions;
 using FamilyFoundsApi.Domain.Common;
 
 namespace FamilyFoundsApi.Core.Contracts.Core;

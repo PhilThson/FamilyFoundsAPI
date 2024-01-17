@@ -1,4 +1,4 @@
-﻿namespace FamilyFoundsApi.Core.Persistance.Exceptions;
+﻿namespace FamilyFoundsApi.Core.Exceptions;
 
 public class ValidationException : Exception
 {

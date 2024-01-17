@@ -34,6 +34,13 @@ public class UnitOfWork : IUnitOfWork
         _dbContext.SaveChanges();
     }
 
+    public async Task AddEntitiesAsync<T>(IEnumerable<T> entitiesList) 
+        where T : class
+    {
+        await _dbContext.Set<T>().AddRangeAsync(entitiesList);
+        await _dbContext.SaveChangesAsync();
+    }
+
     public void AttachEntity<T>(T instance, List<string> modifiedProperties)
     {
         _dbContext.Attach(instance);
