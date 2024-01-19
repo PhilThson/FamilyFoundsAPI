@@ -36,7 +36,7 @@ public static class TransactionEndpoints
 
         transactions.MapPost("/import", Import)
             .WithName("ImportTransactions")
-            .WithOpenApi();
+            .DisableAntiforgery();
     }
 
     private static async Task<Ok<List<ReadTransactionDto>>> GetAll(IMediator mediator)
@@ -75,12 +75,11 @@ public static class TransactionEndpoints
     }
 
     private static async Task<Results<NoContent, BadRequest, BadRequest<string>>>
-        Import(HttpContext httpContext, IMediator mediator)
+        Import(IFormFile file, IMediator mediator)
     {
-        var file = httpContext.Request.Form.Files[0];
-        if (file is null)
+        if (file.ContentType != "text/csv")
         {
-            return TypedResults.BadRequest("Brak pliku do importu");
+            return TypedResults.BadRequest("Plik musi być w formacie csv");
         }
         _ = await mediator.Send(new ImportCsvTransactionListCommand(file.OpenReadStream(), Domain.BankEnum.ING));
         return TypedResults.NoContent();

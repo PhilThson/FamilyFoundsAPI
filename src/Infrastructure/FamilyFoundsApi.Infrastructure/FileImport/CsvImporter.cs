@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Text;
 using CsvHelper;
 using CsvHelper.Configuration;
@@ -11,44 +10,45 @@ namespace FamilyFoundsApi.Infrastructure.FileImport;
 
 public class CsvImporter : ICsvImporter
 {
+    private const string ING_HEADER_INDICATOR = "Data transakcji";
+    private const string ING_BLOCKAGE_INDICATOR = "Kwota blokady/zwolnienie blokady";
     public List<Transaction> ImportIngTransactionsFromCsv(Stream fileStream)
     {
         using var reader = new StreamReader(fileStream, Encoding.UTF8);
-        var config = new CsvConfiguration(CultureInfo.CurrentCulture)
+        var config = new CsvConfiguration(CultureInfo.InvariantCulture)
         {
-            IgnoreBlankLines = true, 
-            Delimiter = ";",
-            ShouldSkipRecord = _omitDocument
+            Delimiter = ";"
         };
         using var csv = new CsvReader(reader, config);
         csv.Context.RegisterClassMap<IngTransactionMap>();
         List<Transaction> records = [];
-        //bool isHeaderRead = false;
-        while (csv.Read())
+        try 
         {
-            Debug.WriteLine($"Linia: {csv.CurrentIndex}");
-            var currentValue = csv.GetField<string>(0);
-            if (string.IsNullOrEmpty(currentValue))
-                continue;
-
-            if (currentValue.StartsWith("Data transakcji"))
+            while (csv.Read())
             {
-                csv.ReadHeader();
-                continue;
-            }
-            if (csv.HeaderRecord is not null)
-            {
-                if (!string.IsNullOrEmpty(csv.GetField("Kwota blokady/zwolnienie blokady"))) {
+                var currentValue = csv.GetField<string>(0) ?? "";
+                if (currentValue.StartsWith(ING_HEADER_INDICATOR))
+                {
+                    csv.ReadHeader();
                     continue;
                 }
-                var transaction = csv.GetRecord<Transaction>() ??
-                    throw new ImportException($"Błąd odczytu. Linia: ${csv.CurrentIndex}");
+                if (csv.HeaderRecord is not null)
+                {
+                    if (!string.IsNullOrEmpty(csv.GetField(ING_BLOCKAGE_INDICATOR))) {
+                        continue;
+                    }
+                    var transaction = csv.GetRecord<Transaction>() ??
+                        throw new ImportException($"Błąd odczytu rekordu. Linia: ${csv.CurrentIndex}");
 
-                records.Add(transaction);
+                    records.Add(transaction);
+                }
             }
         }
+        catch (Exception e)
+        {
+            throw new ImportException(e);
+        }
         return records;
-        //return ParseRecords(records, importDto.StartingLine, importDto.RequiredColumns);
     }
 
     public List<Transaction> ImportMilleniumTransactionsFromCsv(Stream fileStream)
@@ -60,30 +60,5 @@ public class CsvImporter : ICsvImporter
 
         var records = csv.GetRecords<Transaction>().ToList();
         return records;
-        //return ParseRecords(records, importDto.StartingLine, importDto.RequiredColumns);
     }
-
-    private static List<Transaction> ParseRecords(List<dynamic> records, int startingLine, string[] requiredColumns)
-    {
-        // Implement your logic to map dynamic records to your Transaction model
-        // Use startingLine and requiredColumns to extract relevant data
-
-        // Example:
-        var transactions = records.Select(record => new Transaction
-        {
-            Amount = Convert.ToDouble(record["Amount"]),
-            Contractor = record["Contractor"],
-            // Map other properties
-        }).ToList();
-
-        return transactions;
-    }
-    private readonly ShouldSkipRecord _omitDocument = (r) => 
-    {
-        var field = r.Row.GetField(0);
-        if (string.IsNullOrEmpty(field) || field.StartsWith("Dokument")) {
-            return true;
-        }
-        return false;
-    };
 }

@@ -4,17 +4,25 @@ using FamilyFoundsApi.Core;
 using FamilyFoundsApi.Core.Contracts.API;
 using FamilyFoundsApi.Persistance;
 using FamilyFoundsApi.Infrastructure;
+using System.Text.Json.Serialization;
 
 const string LOCAL_ORIGIN = nameof(LOCAL_ORIGIN);
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddControllers()
+    .AddJsonOptions(o => 
+        o.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull);
+
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddCors(o => 
-    o.AddDefaultPolicy(policy => 
+    o.AddPolicy(LOCAL_ORIGIN, policy => 
         policy
             .AllowCredentials()
             .AllowAnyHeader()
             .AllowAnyMethod()
+            .WithExposedHeaders("Content-Type", "Content-Length", "Cache-Control")
             .WithOrigins("http://localhost:3000")));
 
 builder.Services.AddEndpointsApiExplorer();
@@ -34,9 +42,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
-app.UseCors();
+app.UseCors(LOCAL_ORIGIN);
+
+app.Use(next => context =>
+{
+    context.Request.EnableBuffering();
+    return next(context);
+});
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
@@ -45,5 +59,7 @@ var api = app.MapGroup("api");
 api.MapTransactionEndpoints();
 api.MapCategoryEndpoints();
 api.MapImportSourceEndpoints();
+
+app.MapControllers();
 
 app.Run();
