@@ -12,12 +12,14 @@ public class CsvImporter : ICsvImporter
 {
     private const string ING_HEADER_INDICATOR = "Data transakcji";
     private const string ING_BLOCKAGE_INDICATOR = "Kwota blokady/zwolnienie blokady";
+    private const string ING_EOF_INDICATOR = "Dokument";
     public List<Transaction> ImportIngTransactionsFromCsv(Stream fileStream)
     {
         using var reader = new StreamReader(fileStream, Encoding.UTF8);
         var config = new CsvConfiguration(CultureInfo.InvariantCulture)
         {
-            Delimiter = ";"
+            Delimiter = ";",
+            ShouldSkipRecord = _omitEmptyAndDocument
         };
         using var csv = new CsvReader(reader, config);
         csv.Context.RegisterClassMap<IngTransactionMap>();
@@ -34,7 +36,8 @@ public class CsvImporter : ICsvImporter
                 }
                 if (csv.HeaderRecord is not null)
                 {
-                    if (!string.IsNullOrEmpty(csv.GetField(ING_BLOCKAGE_INDICATOR))) {
+                    if (!string.IsNullOrEmpty(csv.GetField(ING_BLOCKAGE_INDICATOR))) 
+                    {
                         continue;
                     }
                     var transaction = csv.GetRecord<Transaction>() ??
@@ -48,6 +51,7 @@ public class CsvImporter : ICsvImporter
         {
             throw new ImportException(e);
         }
+        
         return records;
     }
 
@@ -61,4 +65,14 @@ public class CsvImporter : ICsvImporter
         var records = csv.GetRecords<Transaction>().ToList();
         return records;
     }
+
+    private static readonly ShouldSkipRecord _omitEmptyAndDocument = (arg) =>
+    {
+        var value = arg.Row.GetField(0);
+        if (string.IsNullOrEmpty(value) || value.StartsWith(ING_EOF_INDICATOR))
+        {
+            return true;
+        }
+        return false;
+    };
 }
