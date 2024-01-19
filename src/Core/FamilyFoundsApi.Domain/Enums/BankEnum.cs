@@ -1,4 +1,4 @@
-﻿namespace FamilyFoundsApi.Domain;
+﻿namespace FamilyFoundsApi.Domain.Enums;
 
 public enum BankEnum
 {

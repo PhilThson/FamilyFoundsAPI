@@ -4,6 +4,7 @@ using FamilyFoundsApi.Core.Features.Transaction.Queries;
 using FamilyFoundsApi.Domain.Dtos.Create;
 using FamilyFoundsApi.Domain.Dtos.Read;
 using FamilyFoundsApi.Domain.Dtos.Update;
+using FamilyFoundsApi.Domain.Enums;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace FamilyFoundsApi.Api;
@@ -81,7 +82,7 @@ public static class TransactionEndpoints
         {
             return TypedResults.BadRequest("Plik musi być w formacie csv");
         }
-        _ = await mediator.Send(new ImportCsvTransactionListCommand(file.OpenReadStream(), Domain.BankEnum.ING));
+        _ = await mediator.Send(new ImportCsvTransactionListCommand(file.OpenReadStream(), BankEnum.ING));
         return TypedResults.NoContent();
     }
 }

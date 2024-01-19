@@ -2,7 +2,7 @@
 using FamilyFoundsApi.Core.Contracts.Infrastructure;
 using FamilyFoundsApi.Core.Contracts.Persistance;
 using FamilyFoundsApi.Core.Exceptions;
-using FamilyFoundsApi.Domain;
+using FamilyFoundsApi.Domain.Enums;
 
 namespace FamilyFoundsApi.Core.Features.Transaction.Commands;
 
