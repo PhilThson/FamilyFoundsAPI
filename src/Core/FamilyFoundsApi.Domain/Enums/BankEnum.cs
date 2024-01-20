@@ -2,6 +2,6 @@
 
 public enum BankEnum
 {
-    ING,
-    MILLENIUM
+    ING = 1,
+    MILLENIUM = 2
 }

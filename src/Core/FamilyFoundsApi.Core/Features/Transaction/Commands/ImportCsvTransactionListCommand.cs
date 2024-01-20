@@ -28,12 +28,19 @@ public class ImportCsvTransactionListCommandHandler : IRequestHandler<ImportCsvT
         {
             BankEnum.ING => _csvImporter.ImportIngTransactionsFromCsv(request.FileStream),
             BankEnum.MILLENIUM => _csvImporter.ImportMilleniumTransactionsFromCsv(request.FileStream),
-            _ => throw new ValidationException("Nieobsługiwany bank")
+            _ => throw new ValidationException("Nieobsługiwane źródło importu")
         };
-        //TODO:
-        //logika sprawdzania czy transakcja juz nie istnieje i ew. update
-        await _unitOfWork.AddEntitiesAsync(importedTransactions);
 
-        return importedTransactions.Count;
+        var importedTransactionsCount = await AddNewTransactions(importedTransactions);
+        return importedTransactionsCount;
+    }
+
+    private Task<int> AddNewTransactions(List<Domain.Models.Transaction> importedTransactions)
+    {
+        var newTransactions = importedTransactions
+            .Where(t => string.IsNullOrEmpty(t.Number)
+                || _unitOfWork.Transaction.IsNumberAccountUnique(t.Number, t.Account));
+
+        return _unitOfWork.AddEntitiesAsync(newTransactions);
     }
 }

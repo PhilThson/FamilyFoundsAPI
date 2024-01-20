@@ -22,7 +22,7 @@ public class IngTransactionMap : ClassMap<Transaction>
             .TypeConverter<ContractorBankNameConverter>()
             .Optional();
         Map(t => t.Description).Name("Szczegóły").Optional();
-        Map(t => t.Number)
+        Map(t => t.Number).Name("Nr transakcji")
             .TypeConverter<NumberConverter>()
             .Optional();
         Map(t => t.Amount).Name("Kwota transakcji (waluta rachunku)")
@@ -44,7 +44,7 @@ class ContractorAccountNumberConverter : DefaultTypeConverter
 {
     public override object? ConvertFromString(string? text, IReaderRow row, MemberMapData memberMapData)
     {
-        return string.IsNullOrEmpty(text) ? null : text;
+        return string.IsNullOrEmpty(text) ? null : text.Replace("'", "");
     }
 }
 

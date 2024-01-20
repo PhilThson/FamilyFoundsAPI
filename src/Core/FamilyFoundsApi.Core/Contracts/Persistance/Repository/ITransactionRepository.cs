@@ -6,4 +6,5 @@ public interface ITransactionRepository : IBaseRepository<Transaction>
 {
     Task<Transaction> GetByIdAsync(long id, bool tracked = false);
     Task<List<Transaction>> GetAllAsync();
+    bool IsNumberAccountUnique(string number, string account);
 }

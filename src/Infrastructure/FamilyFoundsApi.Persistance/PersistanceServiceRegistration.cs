@@ -14,6 +14,7 @@ public static class PersistanceRegistration
         services.AddDbContext<FamilyFoundsDbContext>(options =>
         {
             options.UseSqlite(configuration.GetConnectionString("FamilyFounds"));
+            options.EnableSensitiveDataLogging();
         });
 
         // Register wrapper repository

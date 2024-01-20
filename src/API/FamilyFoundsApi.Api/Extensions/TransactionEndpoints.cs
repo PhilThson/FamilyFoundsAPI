@@ -6,6 +6,7 @@ using FamilyFoundsApi.Domain.Dtos.Read;
 using FamilyFoundsApi.Domain.Dtos.Update;
 using FamilyFoundsApi.Domain.Enums;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FamilyFoundsApi.Api;
 
@@ -82,7 +83,13 @@ public static class TransactionEndpoints
         {
             return TypedResults.BadRequest("Plik musi być w formacie csv");
         }
-        _ = await mediator.Send(new ImportCsvTransactionListCommand(file.OpenReadStream(), BankEnum.ING));
+        // if (ImportSourceId == default)
+        // {
+        //     return TypedResults.BadRequest("Naley podać źródlo importu");
+        // }
+        _ = await mediator.Send(
+            new ImportCsvTransactionListCommand(file.OpenReadStream(), BankEnum.ING));//(BankEnum)ImportSourceId));
+
         return TypedResults.NoContent();
     }
 }
