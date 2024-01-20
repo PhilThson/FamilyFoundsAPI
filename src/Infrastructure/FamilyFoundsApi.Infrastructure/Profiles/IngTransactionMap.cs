@@ -4,7 +4,7 @@ using CsvHelper.Configuration;
 using CsvHelper.TypeConversion;
 using FamilyFoundsApi.Domain.Models;
 
-namespace FamilyFoundsApi.Infrastructure;
+namespace FamilyFoundsApi.Infrastructure.Profiles;
 
 public class IngTransactionMap : ClassMap<Transaction>
 {

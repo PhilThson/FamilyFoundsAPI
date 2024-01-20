@@ -9,7 +9,7 @@ public static class ImportSourceEndpoints
 {
     public static void MapImportSourceEndpoints(this RouteGroupBuilder group)
     {
-        var importSource = group.MapGroup("importSource");
+        var importSource = group.MapGroup("importSources");
 
         importSource.MapGet("", GetAll).WithOpenApi();
     }

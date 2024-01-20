@@ -5,6 +5,7 @@ using CsvHelper.Configuration;
 using FamilyFoundsApi.Core.Contracts.Infrastructure;
 using FamilyFoundsApi.Core.Exceptions;
 using FamilyFoundsApi.Domain.Models;
+using FamilyFoundsApi.Infrastructure.Profiles;
 
 namespace FamilyFoundsApi.Infrastructure.FileImport;
 
@@ -54,15 +55,23 @@ public class CsvImporter : ICsvImporter
         
         return records;
     }
-
+ 
     public List<Transaction> ImportMilleniumTransactionsFromCsv(Stream fileStream)
     {
-        using var reader = new StreamReader(fileStream);
-        using var csv = new CsvReader(reader, new CsvConfiguration(CultureInfo.InvariantCulture));
-        csv.Read();
-        csv.ReadHeader();
+        using var reader = new StreamReader(fileStream, Encoding.UTF8);
+        var config = new CsvConfiguration(CultureInfo.InvariantCulture);
+        using var csv = new CsvReader(reader, config);
+        csv.Context.RegisterClassMap<MillenniumTransactionMap>();
+        List<Transaction> records = [];
+        try
+        {
+            records = csv.GetRecords<Transaction>().ToList();
+        }
+        catch (Exception e)
+        {
+            throw new ImportException(e);
+        }
 
-        var records = csv.GetRecords<Transaction>().ToList();
         return records;
     }
 

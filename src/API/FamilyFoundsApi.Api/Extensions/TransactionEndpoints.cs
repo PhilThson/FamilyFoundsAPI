@@ -76,20 +76,20 @@ public static class TransactionEndpoints
         return TypedResults.NoContent();
     }
 
-    private static async Task<Results<NoContent, BadRequest, BadRequest<string>>>
-        Import(IFormFile file, IMediator mediator)
+    private static async Task<Results<Ok<int>, BadRequest, BadRequest<string>>>
+        Import(IFormFile file, [FromForm] short importSourceId, IMediator mediator)
     {
         if (file.ContentType != "text/csv")
         {
             return TypedResults.BadRequest("Plik musi być w formacie csv");
         }
-        // if (ImportSourceId == default)
-        // {
-        //     return TypedResults.BadRequest("Naley podać źródlo importu");
-        // }
-        _ = await mediator.Send(
-            new ImportCsvTransactionListCommand(file.OpenReadStream(), BankEnum.ING));//(BankEnum)ImportSourceId));
+        if (importSourceId == default)
+        {
+            return TypedResults.BadRequest("Naley podać źródlo importu");
+        }
+        var newTransactionsCount = await mediator.Send(
+            new ImportCsvTransactionListCommand(file.OpenReadStream(), (BankEnum)importSourceId));
 
-        return TypedResults.NoContent();
+        return TypedResults.Ok(newTransactionsCount);
     }
 }
