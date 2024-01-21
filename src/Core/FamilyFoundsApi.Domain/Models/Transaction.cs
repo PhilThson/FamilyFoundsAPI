@@ -12,7 +12,6 @@ public class Transaction : BaseEntity<long>, IRemoveable
     public string Currency { get; set; }
     [StringLength(128)]
     public string Account { get; set; }
-    [Required]
     [StringLength(256)]
     public string Contractor { get; set; }
     [StringLength(256)]
@@ -46,7 +45,11 @@ public class Transaction : BaseEntity<long>, IRemoveable
             && transaction.Description == other.Description
             && transaction.Date.Date == other.Date.Date
             && transaction.PostingDate?.Date == other.PostingDate?.Date
-            && transaction.Category?.Name == other.Category?.Name;
+            && transaction.Category?.Name == other.Category?.Name
+            && transaction.Currency == other.Currency
+            && transaction.Account == other.Account
+            && transaction.ContractorAccountNumber == other.ContractorAccountNumber
+            && transaction.ContractorBankName == other.ContractorBankName;
     }
 
     public static bool operator!=(Transaction transaction, Transaction other)

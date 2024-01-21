@@ -31,6 +31,7 @@ public class ExceptionHandlingMiddleware
                 ValidationException => StatusCodes.Status400BadRequest,
                 NotFoundException => StatusCodes.Status404NotFound,
                 ArgumentNullException
+                or ArgumentException
                 or ImportException => StatusCodes.Status500InternalServerError,
                 _ => StatusCodes.Status500InternalServerError
             };

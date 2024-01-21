@@ -14,6 +14,7 @@ public class TransactionRepository : BaseRepository<Transaction>, ITransactionRe
     public Task<Transaction> GetByIdAsync(long id, bool tracked = false) =>
         FindByConditionAsync(t => t.Id == id, tracked)
         .Include(t => t.Category)
+        .Include(t => t.ImportSource)
         .FirstOrDefaultAsync();
 
     public Task<List<Transaction>> GetAllAsync() =>

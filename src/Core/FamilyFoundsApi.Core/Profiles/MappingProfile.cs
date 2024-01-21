@@ -13,9 +13,11 @@ public class MappingProfile : Profile
     {
         CreateMap<Transaction, ReadTransactionDto>();
         CreateMap<CreateTransactionDto, Transaction>()
-            .ForMember(d => d.Category, o => o.Ignore());
+            .ForMember(d => d.Category, o => o.Ignore())
+            .ForMember(d => d.ImportSource, o => o.Ignore());
         CreateMap<UpdateTransactionDto, Transaction>()
-            .ForMember(d => d.Category, o => o.Ignore());
+            .ForMember(d => d.Category, o => o.Ignore())
+            .ForMember(d => d.ImportSource, o => o.Ignore());
 
         CreateMap<Category, ReadCategoryDto>();
 

@@ -46,7 +46,8 @@ public class CreateTransactionCommandValidator : AbstractValidator<CreateTransac
         AddRule(HasDate, "Brak daty transakcji");
         AddRule(HasTitle, "Tytuł transakcji jest wymagany");
         AddRule(HasContractor, "Brak danych kontrahenta");
-        AddRule(HasAmount, "Kwota musi być rózna od 0");
+        AddRule(HasAmount, "Kwota musi być różna od 0");
+        AddRule(HasCurrency, "Należ podać walutę (np. PLN)");
     }
 
     private Task<bool> IsNotEmpty(CreateTransactionCommand command) =>
@@ -63,4 +64,7 @@ public class CreateTransactionCommandValidator : AbstractValidator<CreateTransac
 
     private Task<bool> HasAmount(CreateTransactionCommand command) =>
         Task.FromResult(command.TransactionDto.Amount != 0.0);
+
+    private Task<bool> HasCurrency(CreateTransactionCommand command) =>
+        Task.FromResult(!string.IsNullOrEmpty(command.TransactionDto.Currency));
 }
