@@ -18,7 +18,7 @@ namespace FamilyFoundsApi.Persistance.Migrations
                 values: new object[,]
                 {
                     { (short)1, null, "ING" },
-                    { (short)2, null, "MILLENIUM" }
+                    { (short)2, null, "MILLENNIUM" }
                 });
         }
 

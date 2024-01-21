@@ -27,7 +27,7 @@ public class ImportCsvTransactionListCommandHandler : IRequestHandler<ImportCsvT
         var importedTransactions = request.Bank switch
         {
             BankEnum.ING => _csvImporter.ImportIngTransactionsFromCsv(request.FileStream),
-            BankEnum.MILLENIUM => _csvImporter.ImportMilleniumTransactionsFromCsv(request.FileStream),
+            BankEnum.MILLENNIUM => _csvImporter.ImportMillenniumTransactionsFromCsv(request.FileStream),
             _ => throw new ValidationException("Nieobsługiwane źródło importu")
         };
 
@@ -41,6 +41,10 @@ public class ImportCsvTransactionListCommandHandler : IRequestHandler<ImportCsvT
             .Where(t => string.IsNullOrEmpty(t.Number)
                 || _unitOfWork.Transaction.IsNumberAccountUnique(t.Number, t.Account));
 
-        return _unitOfWork.AddEntitiesAsync(newTransactions);
+        if (newTransactions.Any())
+        {
+            return _unitOfWork.AddEntitiesAsync(newTransactions);
+        }
+        return Task.FromResult(0);
     }
 }

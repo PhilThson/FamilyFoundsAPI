@@ -56,7 +56,7 @@ public class CsvImporter : ICsvImporter
         return records;
     }
  
-    public List<Transaction> ImportMilleniumTransactionsFromCsv(Stream fileStream)
+    public List<Transaction> ImportMillenniumTransactionsFromCsv(Stream fileStream)
     {
         using var reader = new StreamReader(fileStream, Encoding.UTF8);
         var config = new CsvConfiguration(CultureInfo.InvariantCulture);

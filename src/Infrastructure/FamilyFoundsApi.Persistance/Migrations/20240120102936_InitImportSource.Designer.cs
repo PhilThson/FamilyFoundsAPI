@@ -64,7 +64,7 @@ namespace FamilyFoundsApi.Persistance.Migrations
                         new
                         {
                             Id = (short)2,
-                            Name = "MILLENIUM"
+                            Name = "MILLENNIUM"
                         });
                 });
 

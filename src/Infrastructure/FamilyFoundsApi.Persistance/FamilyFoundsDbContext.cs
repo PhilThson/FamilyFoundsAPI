@@ -28,7 +28,7 @@ public class FamilyFoundsDbContext : DbContext
             .HasData(new List<ImportSource>
             {
                 new () { Id = (short)BankEnum.ING, Name = BankEnum.ING.ToString() },
-                new () { Id = (short)BankEnum.MILLENIUM, Name = BankEnum.MILLENIUM.ToString() },
+                new () { Id = (short)BankEnum.MILLENNIUM, Name = BankEnum.MILLENNIUM.ToString() },
             });
 
         base.OnModelCreating(modelBuilder);

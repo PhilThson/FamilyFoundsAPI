@@ -1,8 +1,9 @@
 ﻿using System.Globalization;
 using CsvHelper;
 using CsvHelper.Configuration;
-using CsvHelper.TypeConversion;
 using FamilyFoundsApi.Domain.Models;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace FamilyFoundsApi.Infrastructure.Profiles;
 
@@ -19,12 +20,10 @@ public class MillenniumTransactionMap : ClassMap<Transaction>
             .TypeConverter<ContractorAccountNumberConverter>()
             .Optional();
         Map(t => t.Description).Name("Rodzaj transakcji").Optional();
-        // Map(t => t.Number).Name("Nr transakcji")
-        //     .TypeConverter<NumberConverter>()
-        //     .Optional();
         Map(t => t.Amount).Convert(_AmountConverter);
         Map(t => t.Currency).Name("Waluta");
         Map(t => t.Account).Name("Numer rachunku/karty");
+        Map(t => t.Number).Convert(_NumberConverter);
     }
 
     private static readonly ConvertFromString<decimal> _AmountConverter = (args) => 
@@ -35,9 +34,17 @@ public class MillenniumTransactionMap : ClassMap<Transaction>
             Convert.ToDecimal(credit, CultureInfo.InvariantCulture)
             : Convert.ToDecimal(debit, CultureInfo.InvariantCulture);
     };
-}
 
-public class AmountConverter : DefaultTypeConverter
-{
-    
+    private static readonly ConvertFromString<string> _NumberConverter = (args) =>
+    {
+        var date = args.Row.GetField("Data transakcji") ?? "";
+        var transactionType = args.Row.GetField("Rodzaj transakcji") ?? "";
+        var debit = args.Row.GetField("Obciążenia") ?? "";
+        var credit = args.Row.GetField("Uznania") ?? "";
+
+        var concat = $"{date}-{transactionType}-{debit}-{credit}";
+        var inputBytes = Encoding.UTF8.GetBytes(concat);
+        byte[] hashBytes = MD5.HashData(inputBytes);
+        return Convert.ToHexString(hashBytes);
+    };
 }
