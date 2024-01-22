@@ -38,8 +38,7 @@ public class ImportCsvTransactionListCommandHandler : IRequestHandler<ImportCsvT
     private Task<int> AddNewTransactions(List<Domain.Models.Transaction> importedTransactions)
     {
         var newTransactions = importedTransactions
-            .Where(t => string.IsNullOrEmpty(t.Number)
-                || _unitOfWork.Transaction.IsNumberAccountUnique(t.Number, t.Account));
+            .Where(t => _unitOfWork.Transaction.IsNumberUnique(t.Number));
 
         if (newTransactions.Any())
         {

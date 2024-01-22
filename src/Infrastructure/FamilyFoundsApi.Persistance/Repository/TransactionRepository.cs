@@ -20,6 +20,6 @@ public class TransactionRepository : BaseRepository<Transaction>, ITransactionRe
     public Task<List<Transaction>> GetAllAsync() =>
         _DbSet.Include(t => t.Category).ToListAsync();
 
-    public bool IsNumberAccountUnique(string number, string account) =>
-        !_DbSet.Any(t => t.Number == number && t.Account == account);
+    public bool IsNumberUnique(string number) =>
+        !_DbSet.Any(t => t.Number == number);
 }

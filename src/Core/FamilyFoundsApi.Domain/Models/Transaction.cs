@@ -1,11 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics;
+using System.Security.Cryptography;
+using System.Text;
 using FamilyFoundsApi.Domain.Models.Base;
 
 namespace FamilyFoundsApi.Domain.Models;
 
 public class Transaction : BaseEntity<long>, IRemoveable
 {
+    private string _Number;
+
     [Required]
     public decimal Amount { get; set; }
     [StringLength(3)]
@@ -22,7 +27,11 @@ public class Transaction : BaseEntity<long>, IRemoveable
     public DateTime Date { get; set; }
     public DateTime? PostingDate { get; set; }
     [StringLength(128)]
-    public string Number { get; set; }
+    public string Number 
+    { 
+        get => _Number ??= ComputeNumber();
+        set => _Number = ComputeNumber();
+    }
     [StringLength(128)]
     public string ContractorAccountNumber { get; set; }
     [StringLength(256)]
@@ -35,6 +44,15 @@ public class Transaction : BaseEntity<long>, IRemoveable
     public virtual Category Category { get; set; }
     [ForeignKey(nameof(ImportSourceId))]
     public virtual ImportSource ImportSource { get; set; }
+
+    private string ComputeNumber()
+    {
+        Debug.WriteLine("Computing transaction number");
+        var concat = $"{Date}-{Description}-{Amount}-{Contractor}-{Account}-{IsActive}";
+        byte[] inputBytes = Encoding.UTF8.GetBytes(concat);
+        byte[] hashBytes = MD5.HashData(inputBytes);
+        return Convert.ToHexString(hashBytes);
+    }
 
 
     public static bool operator==(Transaction transaction, Transaction other)

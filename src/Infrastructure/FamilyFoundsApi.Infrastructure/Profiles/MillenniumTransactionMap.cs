@@ -2,8 +2,6 @@
 using CsvHelper;
 using CsvHelper.Configuration;
 using FamilyFoundsApi.Domain.Models;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace FamilyFoundsApi.Infrastructure.Profiles;
 
@@ -23,7 +21,6 @@ public class MillenniumTransactionMap : ClassMap<Transaction>
         Map(t => t.Amount).Convert(_AmountConverter);
         Map(t => t.Currency).Name("Waluta");
         Map(t => t.Account).Name("Numer rachunku/karty");
-        Map(t => t.Number).Convert(_NumberConverter);
     }
 
     private static readonly ConvertFromString<decimal> _AmountConverter = (args) => 
@@ -33,18 +30,5 @@ public class MillenniumTransactionMap : ClassMap<Transaction>
         return string.IsNullOrEmpty(debit) ? 
             Convert.ToDecimal(credit, CultureInfo.InvariantCulture)
             : Convert.ToDecimal(debit, CultureInfo.InvariantCulture);
-    };
-
-    private static readonly ConvertFromString<string> _NumberConverter = (args) =>
-    {
-        var date = args.Row.GetField("Data transakcji") ?? "";
-        var transactionType = args.Row.GetField("Rodzaj transakcji") ?? "";
-        var debit = args.Row.GetField("Obciążenia") ?? "";
-        var credit = args.Row.GetField("Uznania") ?? "";
-
-        var concat = $"{date}-{transactionType}-{debit}-{credit}";
-        var inputBytes = Encoding.UTF8.GetBytes(concat);
-        byte[] hashBytes = MD5.HashData(inputBytes);
-        return Convert.ToHexString(hashBytes);
     };
 }

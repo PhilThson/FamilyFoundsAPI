@@ -20,9 +20,7 @@ public class FamilyFoundsDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Transaction>().Property(t => t.IsActive).HasDefaultValue(true);
-        modelBuilder.Entity<Transaction>()
-            .HasIndex(p => new { p.Number, p.Account })
-            .IsUnique();
+        modelBuilder.Entity<Transaction>().HasIndex(p => p.Number).IsUnique();
         modelBuilder.Entity<Transaction>().HasQueryFilter(filter => filter.IsActive == true);
 
         modelBuilder.Entity<ImportSource>()
