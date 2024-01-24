@@ -52,4 +52,3 @@ class ContractorBankNameConverter : DefaultTypeConverter
         return string.IsNullOrEmpty(text) ? null : text;
     }
 }
-

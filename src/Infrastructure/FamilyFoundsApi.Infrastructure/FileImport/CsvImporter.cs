@@ -44,6 +44,7 @@ public class CsvImporter : ICsvImporter
                     var transaction = csv.GetRecord<Transaction>() ??
                         throw new ImportException($"Błąd odczytu rekordu. Linia: ${csv.CurrentIndex}");
 
+                    transaction.CategoryId = transaction.GetCategoryFromIng();
                     records.Add(transaction);
                 }
             }
@@ -65,7 +66,7 @@ public class CsvImporter : ICsvImporter
         List<Transaction> records = [];
         try
         {
-            records = csv.GetRecords<Transaction>().ToList();
+            records = csv.GetRecords<Transaction>().AssignCategoriesToList();
         }
         catch (Exception e)
         {
@@ -84,4 +85,5 @@ public class CsvImporter : ICsvImporter
         }
         return false;
     };
+
 }
