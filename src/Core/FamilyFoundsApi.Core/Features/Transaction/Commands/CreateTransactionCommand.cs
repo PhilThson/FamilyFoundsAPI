@@ -2,8 +2,10 @@
 using FamilyFoundsApi.Core.Contracts.API;
 using FamilyFoundsApi.Core.Contracts.Core;
 using FamilyFoundsApi.Core.Contracts.Persistance;
+using FamilyFoundsApi.Core.Exceptions;
 using FamilyFoundsApi.Domain.Dtos.Create;
 using FamilyFoundsApi.Domain.Dtos.Read;
+using FamilyFoundsApi.Domain.Models;
 
 namespace FamilyFoundsApi.Core.Features.Transaction.Commands;
 
@@ -25,13 +27,12 @@ public class CreateTransactionCommandHandler : IRequestHandler<CreateTransaction
     {
         var validator = new CreateTransactionCommandValidator();
         await validator.ValidateAsync(request);
-        var category = null as ReadCategoryDto;
-        if (!string.IsNullOrEmpty(request.TransactionDto.Category))
+        if (request.TransactionDto.CategoryId is not null)
         {
-            category = await _mediator.Send(new CreateCategoryCommand(request.TransactionDto.Category));
+            _ = _unitOfWork.Category.FindById(request.TransactionDto.CategoryId) ??
+                throw new NotFoundException(nameof(Category), request.TransactionDto.CategoryId);
         }
         var transactionEntity = _mapper.Map<Domain.Models.Transaction>(request.TransactionDto);
-        transactionEntity.CategoryId = category?.Id;
         _unitOfWork.AddEntity(transactionEntity);
         var transactionFromDb = await _unitOfWork.Transaction.GetByIdAsync(transactionEntity.Id);
         return _mapper.Map<ReadTransactionDto>(transactionFromDb);

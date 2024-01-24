@@ -30,7 +30,7 @@ public class Transaction : BaseEntity<long>, IRemoveable
     public string Number 
     { 
         get => _Number ??= ComputeNumber();
-        set => _Number = ComputeNumber();
+        set => _Number = value;
     }
     [StringLength(128)]
     public string ContractorAccountNumber { get; set; }
@@ -63,7 +63,7 @@ public class Transaction : BaseEntity<long>, IRemoveable
             && transaction.Description == other.Description
             && transaction.Date.Date == other.Date.Date
             && transaction.PostingDate?.Date == other.PostingDate?.Date
-            && transaction.Category?.Name == other.Category?.Name
+            && transaction.CategoryId == other.CategoryId
             && transaction.Currency == other.Currency
             && transaction.Account == other.Account
             && transaction.ContractorAccountNumber == other.ContractorAccountNumber

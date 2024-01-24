@@ -23,6 +23,5 @@ public class CreateTransactionDto
     public string ContractorAccountNumber { get; set; }
     [StringLength(256)]
     public string ContractorBankName { get; set; }
-    [StringLength(128)]
-    public string Category { get; set; }
+    public short? CategoryId { get; set; }
 }

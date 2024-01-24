@@ -6,6 +6,7 @@ using FamilyFoundsApi.Core.Helpers;
 using FamilyFoundsApi.Core.Exceptions;
 using FamilyFoundsApi.Domain.Dtos.Read;
 using FamilyFoundsApi.Domain.Dtos.Update;
+using FamilyFoundsApi.Domain.Models;
 
 namespace FamilyFoundsApi.Core.Features.Transaction.Commands;
 
@@ -29,11 +30,10 @@ public class UpdateTransactionCommandHandler : IRequestHandler<UpdateTransaction
             throw new NotFoundException(nameof(Domain.Models.Transaction), request.UpdateTransactionDto.Id);
 
         var updateTransaction = _mapper.Map<Domain.Models.Transaction>(request.UpdateTransactionDto);
-        var category = await _unitOfWork.Category.GetByNameAsync(request.UpdateTransactionDto.Category);
-        if (category is not null)
+        if (updateTransaction.CategoryId is not null) 
         {
-            updateTransaction.CategoryId = category.Id;
-            updateTransaction.Category = category;
+            _ = _unitOfWork.Category.FindById(updateTransaction.CategoryId) ??
+                throw new NotFoundException(nameof(Category), updateTransaction.CategoryId);
         }
 
         if (updateTransaction == existingTransaction) 
@@ -42,8 +42,8 @@ public class UpdateTransactionCommandHandler : IRequestHandler<UpdateTransaction
         }
         var modifiedProperties = EntitiesHelper.GetModifiedProperties(existingTransaction, updateTransaction);
         _unitOfWork.AttachEntity(updateTransaction, modifiedProperties);
-
-        return _mapper.Map<ReadTransactionDto>(updateTransaction);
+        var transactionFromDb = await _unitOfWork.Transaction.GetByIdAsync(updateTransaction.Id);
+        return _mapper.Map<ReadTransactionDto>(transactionFromDb);
     }
 
     public class UpdateTransactionCommandValidator : AbstractValidator<UpdateTransactionCommand>
