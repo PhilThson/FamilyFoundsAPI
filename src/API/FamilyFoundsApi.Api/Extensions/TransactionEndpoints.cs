@@ -16,8 +16,8 @@ public static class TransactionEndpoints
     {
         var transactions = group.MapGroup("/transactions");
 
-        transactions.MapGet("", GetAll)
-            .WithName("GetAllTransactions")
+        transactions.MapGet("", GetByDateRange)
+            .WithName("GetTransactionsByDateRange")
             .WithOpenApi();
 
         transactions.MapGet("{id:long}", GetById)
@@ -41,10 +41,10 @@ public static class TransactionEndpoints
             .DisableAntiforgery();
     }
 
-    private static async Task<Ok<List<ReadTransactionDto>>> GetAll(IMediator mediator)
+    private static async Task<Results<Ok<List<ReadTransactionDto>>, BadRequest<string>>> 
+        GetByDateRange([FromQuery] DateTime startDate, [FromQuery] DateTime endDate, IMediator mediator)
     {
-        var transactions = await mediator.Send(new GetTransactionsListQuery());
-        await Task.Delay(1000);
+        var transactions = await mediator.Send(new GetTransactionsListQuery(startDate, endDate));
         return TypedResults.Ok(transactions);
     }
 

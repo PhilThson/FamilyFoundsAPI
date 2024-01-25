@@ -20,6 +20,11 @@ public class TransactionRepository : BaseRepository<Transaction>, ITransactionRe
     public Task<List<Transaction>> GetAllAsync() =>
         _DbSet.Include(t => t.Category).ToListAsync();
 
+    public Task<List<Transaction>> GetByDateRangeAsync(DateTime startDate, DateTime endDate) =>
+        FindByConditionAsync(t => t.Date.Date >= startDate.Date && t.Date.Date <= endDate.Date)
+        .Include(t => t.Category)
+        .ToListAsync();
+
     public bool IsNumberUnique(string number) =>
         !_DbSet.Any(t => t.Number == number);
 }
