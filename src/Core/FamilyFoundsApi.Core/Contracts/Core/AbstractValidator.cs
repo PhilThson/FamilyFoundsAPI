@@ -1,6 +1,7 @@
-﻿using FamilyFoundsApi.Domain;
+﻿using FamilyFoundsApi.Core.Exceptions;
+using FamilyFoundsApi.Domain.Common;
 
-namespace FamilyFoundsApi.Core;
+namespace FamilyFoundsApi.Core.Contracts.Core;
 
 public abstract class AbstractValidator<T>
 {

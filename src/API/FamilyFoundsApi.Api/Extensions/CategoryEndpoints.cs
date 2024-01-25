@@ -1,5 +1,6 @@
 ﻿using FamilyFoundsApi.Core;
-using FamilyFoundsApi.Domain;
+using FamilyFoundsApi.Core.Contracts.API;
+using FamilyFoundsApi.Domain.Dtos.Read;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace FamilyFoundsApi.Api;
@@ -16,6 +17,7 @@ public static class CategoryEndpoints
 
     private static async Task<Ok<List<ReadCategoryDto>>> GetAll(IMediator mediator)
     {
+        await Task.Delay(2000);
         return TypedResults.Ok(await mediator.Send(new GetCategoriesListQuery()));
     }
 

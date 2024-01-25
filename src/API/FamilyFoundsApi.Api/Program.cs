@@ -1,14 +1,36 @@
 using FamilyFoundsApi.Api;
+using FamilyFoundsApi.Api.Mediator;
 using FamilyFoundsApi.Core;
+using FamilyFoundsApi.Core.Contracts.API;
 using FamilyFoundsApi.Persistance;
+using FamilyFoundsApi.Infrastructure;
+using System.Text.Json.Serialization;
+
+const string LOCAL_ORIGIN = nameof(LOCAL_ORIGIN);
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers()
+    .AddJsonOptions(o => 
+        o.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull);
+
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddCors(o => 
+    o.AddPolicy(LOCAL_ORIGIN, policy => 
+        policy
+            .AllowCredentials()
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .WithExposedHeaders("Content-Type", "Content-Length", "Cache-Control")
+            .WithOrigins("http://localhost:3000")));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddCoreServices();
 builder.Services.AddPersistanceServices(builder.Configuration);
+builder.Services.AddInfrastructureServices();
 
 builder.Services.AddSingleton<IMediator, FamilyFoundsContext>();
 
@@ -20,38 +42,24 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
-var summaries = new[]
+app.UseCors(LOCAL_ORIGIN);
+
+app.Use(next => context =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+    context.Request.EnableBuffering();
+    return next(context);
+});
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
 
 var api = app.MapGroup("api");
 
 api.MapTransactionEndpoints();
 api.MapCategoryEndpoints();
+api.MapImportSourceEndpoints();
+
+app.MapControllers();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

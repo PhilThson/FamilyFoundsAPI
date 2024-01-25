@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using FamilyFoundsApi.Domain.Models.Base;
 
-namespace FamilyFoundsApi.Domain;
+namespace FamilyFoundsApi.Domain.Models;
 
 public class Category : BaseEntity<short>
 {
@@ -9,6 +10,7 @@ public class Category : BaseEntity<short>
         Transactions = new HashSet<Transaction>();
     }
 
+    [Required]
     [StringLength(128)]
     public string Name { get; set; }
 

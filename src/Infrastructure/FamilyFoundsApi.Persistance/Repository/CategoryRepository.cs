@@ -1,5 +1,6 @@
-﻿using FamilyFoundsApi.Core;
-using FamilyFoundsApi.Domain;
+﻿using FamilyFoundsApi.Core.Contracts.Persistance.Repository;
+using FamilyFoundsApi.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FamilyFoundsApi.Persistance;
 
@@ -9,4 +10,9 @@ public class CategoryRepository : BaseRepository<Category>, ICategoryRepository
     {
         
     }
+
+    public Task<Category> GetByNameAsync(string name, bool tracked = false) =>
+        FindByConditionAsync(c => c.Name == name).FirstOrDefaultAsync();
+
+    public bool ExistByName(string name) => _DbSet.Any(c => c.Name == name);
 }

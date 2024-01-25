@@ -1,11 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FamilyFoundsApi.Domain;
+namespace FamilyFoundsApi.Domain.Dtos.Create;
 
 public class CreateTransactionDto
 {
     [Required]
     public double? Amount { get; set; }
+    [StringLength(3)]
+    public string Currency { get; set; }
+    [StringLength(128)]
+    public string Account { get; set; }
     [StringLength(256)]
     public string Contractor { get; set; }
     [StringLength(256)]
@@ -15,5 +19,9 @@ public class CreateTransactionDto
     [Required]
     public DateTime? Date { get; set; }
     public DateTime? PostingDate { get; set; }
+    [StringLength(128)]
+    public string ContractorAccountNumber { get; set; }
+    [StringLength(256)]
+    public string ContractorBankName { get; set; }
     public short? CategoryId { get; set; }
 }

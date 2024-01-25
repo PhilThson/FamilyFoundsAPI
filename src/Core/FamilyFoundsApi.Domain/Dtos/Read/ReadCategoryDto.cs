@@ -1,7 +1,3 @@
-﻿namespace FamilyFoundsApi.Domain;
+﻿namespace FamilyFoundsApi.Domain.Dtos.Read;
 
-public class ReadCategoryDto
-{
-    public short Id { get; set; }
-    public string Name { get; set; }
-}
+public class ReadCategoryDto : ReadDictionaryEntityDto<short>;

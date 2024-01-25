@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
-using FamilyFoundsApi.Core;
+using FamilyFoundsApi.Core.Contracts.API;
 
-namespace FamilyFoundsApi.Api;
+namespace FamilyFoundsApi.Api.Mediator;
 
 public class FamilyFoundsContext : IMediator
 {

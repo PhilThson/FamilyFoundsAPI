@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using FamilyFoundsApi.Domain;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FamilyFoundsApi.Core;
@@ -10,15 +9,11 @@ public static class CoreServiceRegistration
     {
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-        //Queries
-        services.AddScoped<GetTransactionsListQueryHandler>();
-        services.AddScoped<GetTransactionByIdQueryHandler>();
-        services.AddScoped<GetTransactionByIdQueryHandler>();
-        services.AddScoped<GetCategoriesListQueryHandler>();
-        services.AddScoped<GetCategoryByIdQueryHandler>();
-
-        //Commands
-        services.AddScoped<CreateTransactionCommandHandler>();
+        foreach (var handlerType in Assembly.GetExecutingAssembly().GetTypes()
+            .Where(t => t.Name.EndsWith("Handler") && !t.IsAbstract && !t.IsInterface))
+        {
+            services.AddTransient(handlerType);
+        }
 
         return services;
     }

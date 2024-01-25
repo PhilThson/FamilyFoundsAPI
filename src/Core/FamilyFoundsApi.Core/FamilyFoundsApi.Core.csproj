@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features/Category/Commands/" />
+    <Folder Include="Features/ImportSource/Commands/" />
   </ItemGroup>
 
   <PropertyGroup>

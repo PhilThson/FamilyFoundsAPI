@@ -1,14 +1,17 @@
-﻿using AutoMapper;
-using FamilyFoundsApi.Domain;
+﻿using System.ComponentModel.DataAnnotations;
+using AutoMapper;
+using FamilyFoundsApi.Core.Contracts.API;
+using FamilyFoundsApi.Core.Contracts.Persistance;
+using FamilyFoundsApi.Domain.Dtos.Read;
 
-namespace FamilyFoundsApi.Core;
+namespace FamilyFoundsApi.Core.Features.Transaction.Queries;
 
-public record GetTransactionsListQuery : IRequest<List<ReadTransactionDto>>;
+public record GetTransactionsListQuery(DateTime StartDate, DateTime EndDate) : IRequest<List<ReadTransactionDto>>;
 
 public class GetTransactionsListQueryHandler : IRequestHandler<GetTransactionsListQuery, List<ReadTransactionDto>>
 {
-    private IUnitOfWork _unitOfWork;
-    private IMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IMapper _mapper;
 
     public GetTransactionsListQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
     {
@@ -18,7 +21,13 @@ public class GetTransactionsListQueryHandler : IRequestHandler<GetTransactionsLi
 
     public async Task<List<ReadTransactionDto>> Handle(GetTransactionsListQuery request)
     {
-        var transactions = await _unitOfWork.Transaction.FindAllAsync();
+        if (request.StartDate.Date > request.EndDate.Date)
+        {
+            throw new ValidationException("Data początkowa musi być mniejsza lub równa dacie końcowej");
+        }
+        var transactions = await _unitOfWork.Transaction.GetByDateRangeAsync(
+            request.StartDate.Date, request.EndDate.Date);
+            
         return _mapper.Map<List<ReadTransactionDto>>(transactions);
     }
 }
