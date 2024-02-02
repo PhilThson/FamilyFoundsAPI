@@ -23,6 +23,7 @@ public class IngTransactionMap : ClassMap<Transaction>
             .Optional();
         Map(t => t.Description).Name("Szczegóły").Optional();
         Map(t => t.Amount).Name("Kwota transakcji (waluta rachunku)")
+            .TypeConverterOption.NumberStyles(NumberStyles.Currency)
             .TypeConverterOption.CultureInfo(CultureInfo.CurrentCulture);
         Map(t => t.Currency).Name("Waluta").NameIndex(0);
         Map(t => t.Account).Name("Konto");
