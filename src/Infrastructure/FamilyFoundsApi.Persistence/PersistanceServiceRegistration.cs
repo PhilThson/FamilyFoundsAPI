@@ -6,9 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FamilyFoundsApi.Persistence;
 
-public static class PersistanceRegistration
+public static class PersistenceRegistration
 {
-    public static IServiceCollection AddPersistanceServices(this IServiceCollection services,
+    public static IServiceCollection AddPersistenceServices(this IServiceCollection services,
         IConfiguration configuration)
     {
         services.AddDbContext<FamilyFoundsDbContext>(options =>

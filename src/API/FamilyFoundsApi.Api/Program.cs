@@ -30,7 +30,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddCoreServices();
-builder.Services.AddPersistanceServices(builder.Configuration);
+builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddInfrastructureServices();
 
 builder.Services.AddSingleton<IMediator, FamilyFoundsContext>();
