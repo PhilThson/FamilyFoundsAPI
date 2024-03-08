@@ -2,7 +2,7 @@
 using FamilyFoundsApi.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace FamilyFoundsApi.Persistance;
+namespace FamilyFoundsApi.Persistence;
 
 public class CategoryRepository : BaseRepository<Category>, ICategoryRepository
 {

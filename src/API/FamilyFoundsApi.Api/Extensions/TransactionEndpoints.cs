@@ -8,7 +8,7 @@ using FamilyFoundsApi.Domain.Enums;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FamilyFoundsApi.Api;
+namespace FamilyFoundsApi.Api.Extensions;
 
 public static class TransactionEndpoints
 {

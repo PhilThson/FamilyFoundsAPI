@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyFoundsApi.Infrastructure", "src\Infrastructure\FamilyFoundsApi.Infrastructure\FamilyFoundsApi.Infrastructure.csproj", "{15D14A2E-97E8-4841-8EFE-C8D897373A8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyFoundsApi.Persistance", "src\Infrastructure\FamilyFoundsApi.Persistance\FamilyFoundsApi.Persistance.csproj", "{3A91488F-AAE5-4355-9BD5-68BD55105DA8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FamilyFoundsApi.Persistence", "src\Infrastructure\FamilyFoundsApi.Persistence\FamilyFoundsApi.Persistence.csproj", "{3A91488F-AAE5-4355-9BD5-68BD55105DA8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{35409559-E8F2-4F41-AAD7-7B9548B4A2C1}"
 EndProject

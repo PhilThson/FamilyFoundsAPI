@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Infrastructure\FamilyFoundsApi.Persistance\FamilyFoundsApi.Persistance.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\FamilyFoundsApi.Persistence\FamilyFoundsApi.Persistence.csproj" />
     <ProjectReference Include="..\..\Core\FamilyFoundsApi.Core\FamilyFoundsApi.Core.csproj" />
     <ProjectReference Include="..\..\Infrastructure\FamilyFoundsApi.Infrastructure\FamilyFoundsApi.Infrastructure.csproj" />
   </ItemGroup>

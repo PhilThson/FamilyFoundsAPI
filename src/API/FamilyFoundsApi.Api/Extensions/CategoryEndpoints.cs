@@ -3,7 +3,7 @@ using FamilyFoundsApi.Core.Contracts.API;
 using FamilyFoundsApi.Domain.Dtos.Read;
 using Microsoft.AspNetCore.Http.HttpResults;
 
-namespace FamilyFoundsApi.Api;
+namespace FamilyFoundsApi.Api.Extensions;
 
 public static class CategoryEndpoints
 {
@@ -17,7 +17,6 @@ public static class CategoryEndpoints
 
     private static async Task<Ok<List<ReadCategoryDto>>> GetAll(IMediator mediator)
     {
-        await Task.Delay(2000);
         return TypedResults.Ok(await mediator.Send(new GetCategoriesListQuery()));
     }
 

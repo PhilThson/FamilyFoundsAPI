@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace FamilyFoundsApi.Persistance.Migrations
+namespace FamilyFoundsApi.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class CreateTransactinoNumberAccountIndex : Migration

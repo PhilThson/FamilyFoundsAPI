@@ -15,13 +15,11 @@ public class CreateTransactionCommandHandler : IRequestHandler<CreateTransaction
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
-    private readonly IMediator _mediator;
 
-    public CreateTransactionCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IMediator mediator)
+    public CreateTransactionCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
-        _mediator = mediator;
     }
     public async Task<ReadTransactionDto> Handle(CreateTransactionCommand request)
     {

@@ -4,7 +4,7 @@
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace FamilyFoundsApi.Persistance.Migrations
+namespace FamilyFoundsApi.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class InitImportSource : Migration

@@ -2,7 +2,7 @@
 using FamilyFoundsApi.Core.Contracts.Persistance.Repository;
 using FamilyFoundsApi.Domain;
 
-namespace FamilyFoundsApi.Persistance.Repository;
+namespace FamilyFoundsApi.Persistence.Repository;
 
 public class UnitOfWork : IUnitOfWork
 {

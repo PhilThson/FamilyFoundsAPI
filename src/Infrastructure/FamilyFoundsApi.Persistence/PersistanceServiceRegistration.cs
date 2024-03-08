@@ -1,10 +1,10 @@
 ﻿using FamilyFoundsApi.Core.Contracts.Persistance;
-using FamilyFoundsApi.Persistance.Repository;
+using FamilyFoundsApi.Persistence.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FamilyFoundsApi.Persistance;
+namespace FamilyFoundsApi.Persistence;
 
 public static class PersistanceRegistration
 {
