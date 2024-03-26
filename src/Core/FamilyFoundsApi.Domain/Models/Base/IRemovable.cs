@@ -1,6 +1,6 @@
-﻿namespace FamilyFoundsApi.Domain;
+﻿namespace FamilyFoundsApi.Domain.Models.Base;
 
-public interface IRemoveable
+public interface IRemovable
 {
     bool IsActive { get; set; }
 }

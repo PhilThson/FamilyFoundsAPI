@@ -6,9 +6,9 @@ using FamilyFoundsApi.Domain.Models.Base;
 
 namespace FamilyFoundsApi.Domain.Models;
 
-public class Transaction : BaseEntity<long>, IRemoveable
+public class Transaction : BaseEntity<long>, IRemovable
 {
-    private string _Number;
+    private string _number;
 
     [Required]
     public decimal Amount { get; set; }
@@ -28,8 +28,8 @@ public class Transaction : BaseEntity<long>, IRemoveable
     [StringLength(128)]
     public string Number 
     { 
-        get => _Number ??= ComputeNumber();
-        set => _Number = value;
+        get => _number ??= ComputeNumber();
+        set => _number = value;
     }
     [StringLength(128)]
     public string ContractorAccountNumber { get; set; }
