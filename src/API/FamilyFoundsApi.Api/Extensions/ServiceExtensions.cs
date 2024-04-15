@@ -1,3 +1,4 @@
+using System.Net;
 using System.Text;
 using FamilyFoundsApi.Core.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -50,14 +51,32 @@ public static class ServiceExtensions
                         notBefore <= DateTime.UtcNow && expires > DateTime.UtcNow,
                     ClockSkew = TimeSpan.Zero
                 };
+                config.Events = new JwtBearerEvents()
+                {
+                    // JWT handler automatically return a WWW-Authenticate: Bearer response header
+                    // containing an error code/description when a 401 response is returned
+                    // stąd nie ma sensu nadpisywania eventu OnAuthenticationFailed,
+                    // bo nie zostanie on wywołany
+                    OnChallenge = (context) =>
+                    {
+                        context.HandleResponse();
+                        context.Response.ContentType = "application/json";
+                        context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                        
+                        return context.Response.WriteAsJsonAsync(new
+                        {
+                            Message = "Brak zalogowanego użytkownika"
+                        });
+                    }
+                };
             });
     }
 
     public static void ConfigureAuthorization(this IServiceCollection services)
     {
         services.AddAuthorization(options =>
-        options.AddPolicy(FFConstants.AuthorizationPolicy, cp =>
-            cp.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
-                .RequireClaim(FFConstants.UserIdClaim)));
+            options.AddPolicy(FFConstants.AuthorizationPolicy, cp =>
+                cp.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireClaim(FFConstants.UserIdClaim)));
     }
 }
