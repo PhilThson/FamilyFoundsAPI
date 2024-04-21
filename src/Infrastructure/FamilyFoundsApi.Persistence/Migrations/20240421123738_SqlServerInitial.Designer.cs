@@ -3,6 +3,7 @@ using System;
 using FamilyFoundsApi.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
@@ -11,115 +12,192 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FamilyFoundsApi.Persistence.Migrations
 {
     [DbContext(typeof(FamilyFoundsDbContext))]
-    [Migration("20240117163542_AddTransactionProps")]
-    partial class AddTransactionProps
+    [Migration("20240421123738_SqlServerInitial")]
+    partial class SqlServerInitial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "8.0.4")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("FamilyFoundsApi.Domain.Models.Category", b =>
                 {
                     b.Property<short>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("smallint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<short>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(128)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Category");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = (short)1,
+                            Name = "Artykuły spożywcze"
+                        },
+                        new
+                        {
+                            Id = (short)2,
+                            Name = "Artykuły chemiczne i higieniczne"
+                        },
+                        new
+                        {
+                            Id = (short)3,
+                            Name = "Ubrania"
+                        },
+                        new
+                        {
+                            Id = (short)4,
+                            Name = "Rozrywka"
+                        },
+                        new
+                        {
+                            Id = (short)5,
+                            Name = "Transport"
+                        },
+                        new
+                        {
+                            Id = (short)6,
+                            Name = "Sprzęt domowy i budowlany"
+                        },
+                        new
+                        {
+                            Id = (short)7,
+                            Name = "Zdrowie i uroda"
+                        },
+                        new
+                        {
+                            Id = (short)8,
+                            Name = "Rachunki"
+                        },
+                        new
+                        {
+                            Id = (short)9,
+                            Name = "Dzieci"
+                        },
+                        new
+                        {
+                            Id = (short)10,
+                            Name = "Inne"
+                        });
                 });
 
             modelBuilder.Entity("FamilyFoundsApi.Domain.Models.ImportSource", b =>
                 {
                     b.Property<short>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("smallint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<short>("Id"));
 
                     b.Property<string>("Description")
                         .HasMaxLength(512)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(512)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
                     b.ToTable("ImportSource");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = (short)1,
+                            Name = "ING"
+                        },
+                        new
+                        {
+                            Id = (short)2,
+                            Name = "MILLENNIUM"
+                        });
                 });
 
             modelBuilder.Entity("FamilyFoundsApi.Domain.Models.Transaction", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Account")
                         .HasMaxLength(128)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<decimal>("Amount")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("money");
 
                     b.Property<short?>("CategoryId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("smallint");
 
                     b.Property<string>("Contractor")
-                        .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("ContractorAccountNumber")
                         .HasMaxLength(128)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ContractorBankName")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("Currency")
                         .HasMaxLength(3)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(3)");
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasMaxLength(1024)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(1024)");
 
                     b.Property<short?>("ImportSourceId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("smallint");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
+                        .HasColumnType("bit")
                         .HasDefaultValue(true);
 
                     b.Property<string>("Number")
                         .HasMaxLength(128)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<DateTime?>("PostingDate")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("ImportSourceId");
+
+                    b.HasIndex("Number")
+                        .IsUnique()
+                        .HasFilter("[Number] IS NOT NULL");
 
                     b.ToTable("Transaction");
                 });

@@ -11,6 +11,7 @@ public class Transaction : BaseEntity<long>, IRemovable
     private string _number;
 
     [Required]
+    [Column(TypeName = "money")]
     public decimal Amount { get; set; }
     [StringLength(3)]
     public string Currency { get; set; }

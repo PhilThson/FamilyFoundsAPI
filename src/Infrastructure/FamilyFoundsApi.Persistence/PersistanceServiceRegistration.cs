@@ -13,8 +13,7 @@ public static class PersistenceRegistration
     {
         services.AddDbContext<FamilyFoundsDbContext>(options =>
         {
-            options.UseSqlite(configuration.GetConnectionString("FamilyFounds"));
-            options.EnableSensitiveDataLogging();
+            options.UseSqlServer(configuration.GetConnectionString("FamilyFounds"));
         });
 
         // Register wrapper repository
