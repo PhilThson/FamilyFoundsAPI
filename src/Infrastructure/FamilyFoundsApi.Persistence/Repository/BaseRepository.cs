@@ -2,7 +2,7 @@
 using FamilyFoundsApi.Core.Contracts.Persistance.Repository;
 using Microsoft.EntityFrameworkCore;
 
-namespace FamilyFoundsApi.Persistance;
+namespace FamilyFoundsApi.Persistence;
 
 public abstract class BaseRepository<T> : IBaseRepository<T>
     where T : class

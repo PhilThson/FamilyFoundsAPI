@@ -4,19 +4,23 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>b77e82f2-a82a-4253-88ce-0c3efb0e9370</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="7.4.1" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.4.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Infrastructure\FamilyFoundsApi.Persistance\FamilyFoundsApi.Persistance.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\FamilyFoundsApi.Persistence\FamilyFoundsApi.Persistence.csproj" />
     <ProjectReference Include="..\..\Core\FamilyFoundsApi.Core\FamilyFoundsApi.Core.csproj" />
     <ProjectReference Include="..\..\Infrastructure\FamilyFoundsApi.Infrastructure\FamilyFoundsApi.Infrastructure.csproj" />
   </ItemGroup>

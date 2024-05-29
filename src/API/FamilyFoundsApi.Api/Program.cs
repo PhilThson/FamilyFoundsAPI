@@ -1,12 +1,14 @@
-using FamilyFoundsApi.Api;
 using FamilyFoundsApi.Api.Mediator;
 using FamilyFoundsApi.Core;
 using FamilyFoundsApi.Core.Contracts.API;
-using FamilyFoundsApi.Persistance;
+using FamilyFoundsApi.Persistence;
 using FamilyFoundsApi.Infrastructure;
 using System.Text.Json.Serialization;
-
-const string LOCAL_ORIGIN = nameof(LOCAL_ORIGIN);
+using FamilyFoundsApi.Api.CustomMiddleware;
+using FamilyFoundsApi.Api.Extensions;
+using FamilyFoundsApi.Core.Options;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,20 +18,22 @@ builder.Services.AddControllers()
 
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddCors(o => 
-    o.AddPolicy(LOCAL_ORIGIN, policy => 
-        policy
-            .AllowCredentials()
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            .WithExposedHeaders("Content-Type", "Content-Length", "Cache-Control")
-            .WithOrigins("http://localhost:3000")));
+builder.Services.ConfigureCors(builder.Configuration, FFConstants.CorsPolicy);
+builder.Services.ConfigureAuthentication(builder.Configuration);
+builder.Services.ConfigureAuthorization();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(setup => 
+    setup.AddSecurityDefinition("FamilyFounds API Authorization", new OpenApiSecurityScheme()
+    {
+        BearerFormat = "Bearer {value}",
+        Description = "Enter Bearer Token",
+        Scheme = JwtBearerDefaults.AuthenticationScheme,
+        Type = SecuritySchemeType.Http
+    }));
 
 builder.Services.AddCoreServices();
-builder.Services.AddPersistanceServices(builder.Configuration);
+builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddInfrastructureServices();
 
 builder.Services.AddSingleton<IMediator, FamilyFoundsContext>();
@@ -42,9 +46,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 
-app.UseCors(LOCAL_ORIGIN);
+app.UseCors(FFConstants.CorsPolicy);
 
 app.Use(next => context =>
 {
@@ -53,8 +57,11 @@ app.Use(next => context =>
 });
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.UseAuthentication();
+app.UseAuthorization();
 
-var api = app.MapGroup("api");
+var api = app.MapGroup("api")
+    .RequireAuthorization(FFConstants.AuthorizationPolicy);
 
 api.MapTransactionEndpoints();
 api.MapCategoryEndpoints();

@@ -1,17 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
 using FamilyFoundsApi.Domain.Models.Base;
 
 namespace FamilyFoundsApi.Domain.Models;
 
-public class Transaction : BaseEntity<long>, IRemoveable
+public class Transaction : BaseEntity<long>, IRemovable
 {
-    private string _Number;
+    private string _number;
 
     [Required]
+    [Column(TypeName = "money")]
     public decimal Amount { get; set; }
     [StringLength(3)]
     public string Currency { get; set; }
@@ -29,8 +29,8 @@ public class Transaction : BaseEntity<long>, IRemoveable
     [StringLength(128)]
     public string Number 
     { 
-        get => _Number ??= ComputeNumber();
-        set => _Number = value;
+        get => _number ??= ComputeNumber();
+        set => _number = value;
     }
     [StringLength(128)]
     public string ContractorAccountNumber { get; set; }
@@ -47,9 +47,8 @@ public class Transaction : BaseEntity<long>, IRemoveable
 
     private string ComputeNumber()
     {
-        Debug.WriteLine("Computing transaction number");
-        var concat = $"{Date}-{Description}-{Amount}-{Contractor}-{Account}-{IsActive}";
-        byte[] inputBytes = Encoding.UTF8.GetBytes(concat);
+        var concat = $"{Date}-{Description}-{Amount}-{Contractor}-{Account}-{IsActive}-{Title}";
+        byte[] inputBytes = Encoding.UTF8.GetBytes(concat.Replace(" ", ""));
         byte[] hashBytes = MD5.HashData(inputBytes);
         return Convert.ToHexString(hashBytes);
     }

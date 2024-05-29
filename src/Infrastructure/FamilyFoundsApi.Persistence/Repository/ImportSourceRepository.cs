@@ -1,7 +1,7 @@
 ﻿using FamilyFoundsApi.Core.Contracts.Persistance.Repository;
 using FamilyFoundsApi.Domain.Models;
 
-namespace FamilyFoundsApi.Persistance;
+namespace FamilyFoundsApi.Persistence;
 
 public class ImportSourceRepository : BaseRepository<ImportSource>, IImportSourceRepository
 {

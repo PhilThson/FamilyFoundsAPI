@@ -3,7 +3,7 @@ using FamilyFoundsApi.Core.Contracts.API;
 using FamilyFoundsApi.Domain.Dtos.Read;
 using Microsoft.AspNetCore.Http.HttpResults;
 
-namespace FamilyFoundsApi.Api;
+namespace FamilyFoundsApi.Api.Extensions;
 
 public static class ImportSourceEndpoints
 {

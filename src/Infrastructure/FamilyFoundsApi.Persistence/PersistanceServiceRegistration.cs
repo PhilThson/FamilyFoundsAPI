@@ -1,20 +1,19 @@
 ﻿using FamilyFoundsApi.Core.Contracts.Persistance;
-using FamilyFoundsApi.Persistance.Repository;
+using FamilyFoundsApi.Persistence.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FamilyFoundsApi.Persistance;
+namespace FamilyFoundsApi.Persistence;
 
-public static class PersistanceRegistration
+public static class PersistenceRegistration
 {
-    public static IServiceCollection AddPersistanceServices(this IServiceCollection services,
+    public static IServiceCollection AddPersistenceServices(this IServiceCollection services,
         IConfiguration configuration)
     {
         services.AddDbContext<FamilyFoundsDbContext>(options =>
         {
-            options.UseSqlite(configuration.GetConnectionString("FamilyFounds"));
-            //options.EnableSensitiveDataLogging();
+            options.UseSqlServer(configuration.GetConnectionString("FamilyFounds"));
         });
 
         // Register wrapper repository

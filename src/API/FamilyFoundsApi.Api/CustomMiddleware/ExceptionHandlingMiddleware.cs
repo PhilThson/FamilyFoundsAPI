@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using FamilyFoundsApi.Core.Exceptions;
 
-namespace FamilyFoundsApi.Api;
+namespace FamilyFoundsApi.Api.CustomMiddleware;
 
 public class ExceptionHandlingMiddleware
 {

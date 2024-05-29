@@ -1,8 +1,9 @@
 ﻿using FamilyFoundsApi.Core.Contracts.Persistance;
 using FamilyFoundsApi.Core.Contracts.Persistance.Repository;
 using FamilyFoundsApi.Domain;
+using FamilyFoundsApi.Domain.Models.Base;
 
-namespace FamilyFoundsApi.Persistance.Repository;
+namespace FamilyFoundsApi.Persistence.Repository;
 
 public class UnitOfWork : IUnitOfWork
 {
@@ -51,7 +52,7 @@ public class UnitOfWork : IUnitOfWork
         _dbContext.SaveChanges();
     }
 
-    public void RemoveEntity<T>(T instance) where T : IRemoveable
+    public void RemoveEntity<T>(T instance) where T : IRemovable
     {
         instance.IsActive = false;
         _dbContext.SaveChanges();

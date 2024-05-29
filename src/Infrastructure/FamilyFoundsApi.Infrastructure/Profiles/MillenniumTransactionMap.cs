@@ -6,7 +6,7 @@ using FamilyFoundsApi.Domain.Models;
 
 namespace FamilyFoundsApi.Infrastructure.Profiles;
 
-public class MillenniumTransactionMap : ClassMap<Transaction>
+public sealed class MillenniumTransactionMap : ClassMap<Transaction>
 {
     public MillenniumTransactionMap()
     {

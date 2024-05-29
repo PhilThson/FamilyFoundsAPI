@@ -1,5 +1,6 @@
 ﻿using FamilyFoundsApi.Core.Contracts.Persistance.Repository;
 using FamilyFoundsApi.Domain;
+using FamilyFoundsApi.Domain.Models.Base;
 
 namespace FamilyFoundsApi.Core.Contracts.Persistance;
 
@@ -13,5 +14,5 @@ public interface IUnitOfWork
     void AddEntity<T>(T instance);
     Task<int> AddEntitiesAsync<T>(IEnumerable<T> entities) where T : class;
     void AttachEntity<T>(T instance, List<string> modifiedProperties);
-    void RemoveEntity<T>(T instance) where T : IRemoveable;
+    void RemoveEntity<T>(T instance) where T : IRemovable;
 }
