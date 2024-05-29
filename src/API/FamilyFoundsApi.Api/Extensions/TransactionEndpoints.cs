@@ -85,7 +85,7 @@ public static class TransactionEndpoints
         }
         if (importSourceId == default)
         {
-            return TypedResults.BadRequest("Naley podać źródlo importu");
+            return TypedResults.BadRequest("Należy podać źródło importu");
         }
         var newTransactionsCount = await mediator.Send(
             new ImportCsvTransactionListCommand(file.OpenReadStream(), (BankEnum)importSourceId));
