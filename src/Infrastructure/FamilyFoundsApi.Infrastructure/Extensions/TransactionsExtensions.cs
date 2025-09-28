@@ -20,7 +20,10 @@ public static class TransactionsExtensions
             || contractor.Contains("zabka", StringComparison.InvariantCultureIgnoreCase)
             || contractor.Contains("stokrotka", StringComparison.InvariantCultureIgnoreCase)
             || contractor.Contains("pizza", StringComparison.InvariantCultureIgnoreCase)
-            || contractor.Contains("sklep", StringComparison.InvariantCultureIgnoreCase))
+            || contractor.Contains("sklep", StringComparison.InvariantCultureIgnoreCase)
+            || contractor.Contains("turczynski", StringComparison.InvariantCultureIgnoreCase)
+            || contractor.Contains("handel obwozny", StringComparison.InvariantCultureIgnoreCase)
+            || contractor.Contains("napoli", StringComparison.InvariantCultureIgnoreCase))
         {
             return (short)CategoriesEnum.FOOD;
         }
@@ -40,7 +43,8 @@ public static class TransactionsExtensions
             return (short)CategoriesEnum.CHILDREN;
         }
         else if (contractor.Contains("traffic", StringComparison.InvariantCultureIgnoreCase)
-            || contractor.Contains("paliw", StringComparison.InvariantCultureIgnoreCase))
+            || contractor.Contains("paliw", StringComparison.InvariantCultureIgnoreCase)
+            || contractor.Contains("stacja", StringComparison.InvariantCultureIgnoreCase))
         {
             return (short)CategoriesEnum.TRANSPORT;
         }
@@ -49,8 +53,7 @@ public static class TransactionsExtensions
         {
             return (short)CategoriesEnum.HOUSEHOLD;
         }
-        else if (contractor.Contains("hbo", StringComparison.InvariantCultureIgnoreCase)
-            || contractor.Contains("cofidis", StringComparison.InvariantCultureIgnoreCase))
+        else if (contractor.Contains("help.max.com", StringComparison.InvariantCultureIgnoreCase))
         {
             return (short)CategoriesEnum.BILLS;
         }
@@ -86,7 +89,9 @@ public static class TransactionsExtensions
             || title.Contains("stokrotka", StringComparison.InvariantCultureIgnoreCase)
             || title.Contains("pizza", StringComparison.InvariantCultureIgnoreCase)
             || title.Contains("turczynski", StringComparison.InvariantCultureIgnoreCase)
-            || title.Contains("sklep", StringComparison.InvariantCultureIgnoreCase))
+            || title.Contains("sklep", StringComparison.InvariantCultureIgnoreCase)
+            || title.Contains("handel obwozny", StringComparison.InvariantCultureIgnoreCase)
+            || title.Contains("napoli", StringComparison.InvariantCultureIgnoreCase))
         {
             return (short)CategoriesEnum.FOOD;
         }

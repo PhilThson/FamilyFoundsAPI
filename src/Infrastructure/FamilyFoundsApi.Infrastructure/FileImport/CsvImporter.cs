@@ -60,7 +60,10 @@ public class CsvImporter : ICsvImporter
     public List<Transaction> ImportMillenniumTransactionsFromCsv(Stream fileStream)
     {
         using var reader = new StreamReader(fileStream, Encoding.UTF8);
-        var config = new CsvConfiguration(CultureInfo.InvariantCulture);
+        var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+        {
+            Delimiter = ";"
+        };
         using var csv = new CsvReader(reader, config);
         csv.Context.RegisterClassMap<MillenniumTransactionMap>();
         List<Transaction> records = [];
