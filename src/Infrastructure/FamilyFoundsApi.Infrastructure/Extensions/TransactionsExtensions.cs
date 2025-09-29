@@ -23,6 +23,7 @@ public static class TransactionsExtensions
             || contractor.Contains("sklep", StringComparison.InvariantCultureIgnoreCase)
             || contractor.Contains("turczynski", StringComparison.InvariantCultureIgnoreCase)
             || contractor.Contains("handel obwozny", StringComparison.InvariantCultureIgnoreCase)
+            || contractor.Contains("lewiatan", StringComparison.InvariantCultureIgnoreCase)
             || contractor.Contains("napoli", StringComparison.InvariantCultureIgnoreCase))
         {
             return (short)CategoriesEnum.FOOD;
@@ -53,9 +54,16 @@ public static class TransactionsExtensions
         {
             return (short)CategoriesEnum.HOUSEHOLD;
         }
-        else if (contractor.Contains("help.max.com", StringComparison.InvariantCultureIgnoreCase))
+        else if (contractor.Contains("help.max.com", StringComparison.InvariantCultureIgnoreCase)
+            || contractor.Contains("krawarkon", StringComparison.InvariantCultureIgnoreCase)
+            || contractor.Contains("zakład wodociągów i kanalizacji", StringComparison.InvariantCultureIgnoreCase))
         {
             return (short)CategoriesEnum.BILLS;
+        }
+        else if (contractor.Contains("reserved", StringComparison.InvariantCultureIgnoreCase)
+            || contractor.Contains("mohito", StringComparison.InvariantCultureIgnoreCase))
+        {
+            return (short)CategoriesEnum.CLOTHES;
         }
         else
         {
