@@ -23,5 +23,7 @@ public enum CategoriesEnum
     [Description("Dzieci")]
     CHILDREN = 9,
     [Description("Inne")]
-    OTHER = 10
+    OTHER = 10,
+    [Description("Inwestycje")]
+    INVESTMENTS = 11
 }

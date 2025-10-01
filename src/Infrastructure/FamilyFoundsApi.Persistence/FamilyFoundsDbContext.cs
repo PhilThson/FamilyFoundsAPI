@@ -42,7 +42,8 @@ public class FamilyFoundsDbContext : DbContext
                 new() { Id = (short)CategoriesEnum.HEALTH, Name = CategoriesEnum.HEALTH.GetDescription()},
                 new() { Id = (short)CategoriesEnum.BILLS, Name = CategoriesEnum.BILLS.GetDescription()},
                 new() { Id = (short)CategoriesEnum.CHILDREN, Name = CategoriesEnum.CHILDREN.GetDescription()},
-                new() { Id = (short)CategoriesEnum.OTHER, Name = CategoriesEnum.OTHER.GetDescription()}
+                new() { Id = (short)CategoriesEnum.OTHER, Name = CategoriesEnum.OTHER.GetDescription()},
+                new() { Id = (short)CategoriesEnum.INVESTMENTS, Name = CategoriesEnum.INVESTMENTS.GetDescription()}
             });
 
         base.OnModelCreating(modelBuilder);

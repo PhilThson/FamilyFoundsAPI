@@ -89,6 +89,11 @@ namespace FamilyFoundsApi.Persistence.Migrations
                         {
                             Id = (short)10,
                             Name = "Inne"
+                        },
+                        new
+                        {
+                            Id = (short)11,
+                            Name = "Inwestycje"
                         });
                 });
 
