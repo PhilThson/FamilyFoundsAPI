@@ -76,16 +76,17 @@ public static class TransactionsExtensions
         List<Transaction> result = [];
         foreach (var transaction in records)
         {
-            transaction.CategoryId = GetCategoryFromMillennium(transaction.Title, transaction.Amount);
+            transaction.CategoryId = GetCategoryFromMillennium(transaction);
             result.Add(transaction);
         }
         return result;
     }
     
-    private static short? GetCategoryFromMillennium(string title, decimal amount)
+    private static short? GetCategoryFromMillennium(Transaction tran)
     {
-        if (amount >= 0m || string.IsNullOrEmpty(title)) return null;
-
+        if (tran.Amount >= 0m) return null;
+        var title = (string.IsNullOrEmpty(tran.Title) ? tran.Contractor : tran.Title) ?? "";
+        
         if (title.Contains("biedronka", StringComparison.InvariantCultureIgnoreCase)
             || title.Contains("lidl", StringComparison.InvariantCultureIgnoreCase)
             || title.Contains("kaufland", StringComparison.InvariantCultureIgnoreCase)
